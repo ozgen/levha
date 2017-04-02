@@ -1,0 +1,35 @@
+<form>
+
+    <div class="panel-body">
+        <center>
+            <img ng-src="/client/profilepic/{{user.pictureName}}" class="img-circle" width="150" height="150">
+            <br>
+            <label>{{user.name+" "+user.surname | uppercase}}</label>
+            <br>
+            <label>{{user.email}}</label>
+        </center>
+    </div>
+    <br>
+    <br>
+    <div class="modal-body" ng-if="showPassTemplate">
+
+        <h3><strong>Şifre Değiştirme İşlemi</strong></h3>
+        <formly-form model="vm.model" fields="vm.fields">
+        </formly-form>
+    </div>
+
+    <div class="modal-footer" ng-if="!dt.you">
+        <a type="button" ng-if="!showPassTemplate" class="btn btn-info" ng-click="vm.addTemplate()">Şifreyi yenile</a>
+        <a type="button" ng-if="showPassTemplate" class="btn btn-danger" ng-click="vm.refreshPass()"><i
+                class="fa fa-key"></i> Şifreyi yenile</a>
+        <a ng-if="vm.user.isFreeze" type="submit" class="btn btn-success submit-button" ng-click="vm.unfreeze()">Kullanıcı
+            hesabını aktifleştir</a>
+        <a ng-if="!vm.user.isFreeze" type="submit" class="btn btn-primary submit-button" ng-click="vm.freeze()">Kullanıcı
+            hesabını dondur</a>
+        <a type="submit" class="btn btn-danger submit-button" ng-click="vm.deleteUser()">Kullanıcı hesabını sil</a>
+        <a type="button" class="btn btn-warning" ng-click="vm.cancel()">Vazgeç</a>
+    </div>
+    <center>
+        <a ng-if="dt.you" type="button" class="btn btn-warning" ng-click="dt.cancel()">Vazgeç</a>
+    </center>
+</form>

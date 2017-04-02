@@ -1,0 +1,149 @@
+<form>
+    <div class="horizontal-scroll">
+
+        <div class="modal-title">
+            <h3 class="text-center"><i class="fa fa-chain-broken"></i> Levha Numarası: {{ vm.plateNo }}</h3>
+        </div>
+        <div class="modal-header">
+            <h3 class="text-danger text-center">
+                <i class="fa fa-exclamation fa-align-left text-danger"></i>
+                Levha İşlem Ekranı
+            </h3>
+        </div>
+        <div class="horizontal-scroll">
+
+            <formly-form model="vm.model" fields="vm.fields">
+            </formly-form>
+
+        </div>
+        <div class="modal-footer">
+            <button
+                    type="button"
+                    class="btn btn-danger"
+                    ng-click="vm.delete()"
+                    data-toggle="tooltip"
+                    title="Kayıt Sil">
+                <i class="fa fa-edit"></i> Sil
+            </button>
+            <button ng-if="!showTable && showBtn"
+                    type="button"
+                    class="btn btn-info"
+                    ng-click="vm.showHistory()"
+                    data-toggle="tooltip"
+                    title="Levhanın Tarihçesini göster">
+                <i class="fa fa-book"></i> İşlem Tarihçesi
+            </button>
+            <button ng-if="showTable"
+                    type="button"
+                    class="btn btn-info"
+                    ng-click="vm.closeHistory()"
+                    data-toggle="tooltip"
+                    title="Levhanın Tarihçesini kapat">
+                <i class="fa fa-times"></i> Kapat
+            </button>
+            <button
+                    type="button"
+                    class="btn btn-success"
+                    ng-click="vm.ok()"
+                    data-toggle="tooltip"
+                    title="İşlemi Onayla">
+                <i class="fa fa-key"></i> Evet
+            </button>
+            <button
+                    type="button"
+                    class="btn btn-auth"
+                    ng-click="vm.assign()"
+                    data-toggle="tooltip"
+                    title="Levha İsteğini bir personelin üzerine atar.">
+                <i class="fa fa-share-alt-square"></i> Atama İşlemi
+            </button>
+            <button
+                    type="button"
+                    class="btn btn-warning"
+                    ng-click="vm.cancel()"
+                    data-toggle="tooltip"
+                    title="Vazgeç">
+                <i class="fa fa-times"></i> İptal
+            </button>
+        </div>
+    </div>
+    <div class="horizontal-scroll" ng-if="showAssign">
+        <formly-form model="vm.modelAssign" fields="vm.userComboFields">
+        </formly-form>
+        <div class="modal-footer">
+            <button
+                    type="button"
+                    class="btn btn-infoq"
+                    ng-click="vm.assignToSO()"
+                    data-toggle="tooltip"
+                    title="Levha İsteğini bir personelin üzerine atar.">
+                <i class="fa fa-check"></i> Atama İşlemi
+            </button>
+        </div>
+       </div>
+    <div class="horizontal-scroll" ng-if="showTable">
+
+        <h3 class="text-center"><i class="fa fa-book"></i> İşlem Tarihçesi</h3>
+        <br>
+        <br>
+
+
+        <div class="horizontal-scroll">
+            <table st-table="rowCollection" class="table table-striped table-hover">
+                <thead>
+                <tr>
+
+                    <th>İşlem</th>
+                    <th>İşlem Tarihi</th>
+                    <th>Açıklama</th>
+                    <th>İşlemi Yapan Kullanıcı</th>
+
+                </tr>
+                </thead>
+                <tr ng-repeat="row in operations">
+                    <td>
+                        <div>
+                            <div class=" text-danger">
+                                {{row.processLabel }}
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <center>
+                            <div>
+
+                                <div>
+                                    <div class=" text-info">
+                                        {{row.operation_date | date : "dd.MM.y" }}
+
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </center>
+                    </td>
+                    <td>
+                        <div>
+                            <div >
+                                {{row.explanation }}
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div >
+                            <div >
+                                {{row.useremail}}
+                            </div>
+                        </div>
+                    </td>
+
+
+                </tr>
+
+
+            </table>
+        </div>
+
+    </div>
+</form>

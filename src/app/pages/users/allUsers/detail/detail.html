@@ -1,0 +1,37 @@
+<form name="vm.form" novalidate uploader="uploader">
+    <div class="modal-header" ng-if="!showSpinner">
+
+        <h4 class="modal-title text-left"><span class="glyphicon glyphicon-bookmark"></span> {{ vm.title }}</h4>
+        <center>
+        <span ng-if="uploader.queue[0]">
+        <img ng-src="{{ image_source }}" width="150" height="150" class="img-thumbnail"><br>
+        </span>
+            <img ng-if="!uploader.queue[0]" src="/client/profilepic/{{pictureName}}" width=" 150" height="150"
+                 class="img-thumbnail"><br>
+         <span class="file-input btn btn-primary btn-file">
+        <i class="glyphicon glyphicon-paperclip"></i> Profil Resmi Ekle
+        <input type="file" nv-file-select uploader="uploader" accept="image/*"
+               onchange="angular.element(this).scope().setFile(this)"/>
+        </span>
+
+        </center>
+    </div>
+    <div class="modal-body" ng-if="!showSpinner">
+
+        <formly-form model="vm.model" fields="vm.fields" form="vm.form">
+        </formly-form>
+
+    </div>
+    <div class="modal-body" ng-if="!showSpinner">
+        <formly-form model="vm.roles" fields="vm.regionFields" options="vm.options">
+        </formly-form>
+        <formly-form model="vm.roles" fields="vm.branchFields" options="vm.options">
+        </formly-form>
+    </div>
+    <div class="modal-footer" ng-if=" !showSpinner">
+        <button type="submit" class="btn btn-primary submit-button" ng-click="vm.ok(vm.model)"><i
+                class="fa fa-save"></i> Güncelle
+        </button>
+        <button type="button" class="btn btn-warning" ng-click="vm.cancel()"><i class="fa fa-times"></i> Vazgeç</button>
+    </div>
+</form>

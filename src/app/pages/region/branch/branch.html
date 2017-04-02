@@ -1,0 +1,134 @@
+<div id="page-wrapper">
+    <div class="horizontal-scroll">
+
+        <uib-accordion>
+            <div uib-accordion-group is-open="openDefBranch" heading="ŞUBE TANIMLAMA"
+                 panel-class="bootstrap-panel accordion-panel panel-primary">
+                <center>
+
+                    <div class="userpic">
+                        <div class="userpic-wrapper">
+                            <center>
+        <span ng-if="uploader.queue[0]">
+        <img ng-src="{{ image_source }}" width="150" height="150" class="img-thumbnail"><br>
+        </span>
+                                <img ng-if="!uploader.queue[0]" src="assets/img/app/logo2.png" width="150" height="150"
+                                     class="img-thumbnail"><br>
+         <span class="file-input btn btn-primary btn-file">
+        <i class="glyphicon glyphicon-paperclip"></i> Logo Resmi Ekle
+        <input type="file" nv-file-select uploader="uploader" accept="image/*"
+               onchange="angular.element(this).scope().setFile(this)"/>
+        </span>
+
+                            </center>
+                        </div>
+                    </div>
+                </center>
+                <div class="modal-body">
+                    <formly-form model="vm.regionIdModel" fields="vm.regionComboFields" options="vm.options">
+                    </formly-form>
+                </div>
+                <div class="modal-body" ng-if="vm.regionIdModel.region_id">
+
+
+                    <formly-form model="vm.branchModel" fields="vm.branchFields" options="vm.options">
+                    </formly-form>
+
+                    <div class="col-md-12" ng-show="!showRegionMap">
+                        <map-view></map-view>
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary submit-button" ng-click="vm.ok()"><i
+                            class="fa fa-save"></i> Kaydet
+                    </button>
+                    <button type="button" class="btn btn-warning" ng-click="vm.cancel()"><i
+                            class="fa fa-times"></i>
+                        Vazgeç
+                    </button>
+                </div>
+            </div>
+
+            <div uib-accordion-group heading="TANIMLANMIŞ ŞUBE LİSTESİ"
+                 panel-class="bootstrap-panel accordion-panel panel-default">
+                <div class="modal-body" ng-show="showRegionCombo">
+                    <formly-form model="vm.regionIdModel" fields="vm.regionComboFields" options="vm.options">
+                    </formly-form>
+                    <center>
+                        <button type="button" class="btn btn-default" ng-click="vm.cancel()"><i
+                                class="fa fa-refresh"></i>
+                            Tazele
+                        </button>
+                    </center>
+                </div>
+                <div class="modal-body" ng-show="showBranchList">
+                    <table class="table" st-pipe="vm.callServer" st-table="vm.displayed">
+                        <thead>
+                        <tr>
+
+                            <th st-sort="name">Şube Adı</th>
+                            <th st-sort="explanation">Açıklama</th>
+                            <th>Düzenle</th>
+                            <th>Sil</th>
+
+                        </tr>
+                        <tr>
+                            <th><input st-search="name"/></th>
+                            <th><input st-search="explanation"/></th>
+
+                        </tr>
+                        </thead>
+                        <tbody ng-show="!vm.isLoading">
+                        <tr ng-repeat="row in vm.displayed">
+
+                            <td>{{row.name | uppercase}}</td>
+
+                            <td>{{row.explanation }}</td>
+
+                            <td class="col-md-2">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <button type="button" ng-click="vm.editData(row)" title="Düzenle"
+                                                class="btn btn-sm btn-dark">
+                                            <i class="fa fa-user-md">
+                                            </i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="col-md-2">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <button type="button" ng-click="vm.delete(row)" title="Sil"
+                                                class="btn btn-sm btn-danger">
+                                            <i class="fa fa-trash">
+                                            </i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+
+                        <tbody ng-show="vm.isLoading">
+                        <tr>
+                            <td colspan="6" class="text-center">Yükleniyor ...</td>
+                        </tr>
+                        </tbody>
+                        <tfoot>
+                        <tr>
+                            <td class="text-center" st-pagination="" st-items-by-page="10" colspan="4">
+                            </td>
+                        </tr>
+                        </tfoot>
+                    </table>
+                </div>
+                </div>
+        </uib-accordion>
+
+
+</div>
+</div>
+

@@ -1,0 +1,642 @@
+{
+  "traffic_danger_warning_signs": [
+    {
+      "picture_name": "t1.gif",
+      "no": "TT-1 Trafik Levhası",
+      "scale": [
+        "",
+        ""
+      ],
+      "material": "Galvaniz",
+      "explanation": "Yol ver"
+    },
+    {
+      "picture_name": "t2.gif",
+      "no": "TT-2 Trafik Levhası",
+      "scale": [
+        "",
+        ""
+      ],
+      "material": "Galvaniz",
+      "explanation": "Dur"
+    },
+    {
+      "picture_name": "t3.gif",
+      "no": "TT-3 Trafik Levhası",
+      "scale": [
+        "",
+        ""
+      ],
+      "material": "Galvaniz",
+      "explanation": "Dur"
+    },
+    {
+      "picture_name": "t4.gif",
+      "no": "TT-4 Trafik Levhası",
+      "scale": [
+        "",
+        ""
+      ],
+      "material": "Galvaniz",
+      "explanation": "Dur"
+    },
+    {
+      "picture_name": "t5.gif",
+      "no": "TT-5 Trafik Levhası",
+      "scale": [
+        "",
+        ""
+      ],
+      "material": "Galvaniz",
+      "explanation": "Dur"
+    },
+    {
+      "picture_name": "t6.gif",
+      "no": "TT-6 Trafik Levhası",
+      "scale": [
+        "",
+        ""
+      ],
+      "material": "Galvaniz",
+      "explanation": "Dur"
+    },
+    {
+      "picture_name": "t2.gif",
+      "no": "TT-2 Trafik Levhası",
+      "scale": [
+        "",
+        ""
+      ],
+      "material": "Galvaniz",
+      "explanation": "Dur"
+    },
+    {
+      "picture_name": "t1.gif",
+      "no": "TT-1 Trafik Levhası",
+      "scale": [
+        "",
+        ""
+      ],
+      "material": "Galvaniz",
+      "explanation": "Yol ver"
+    },
+    {
+      "picture_name": "t2.gif",
+      "no": "TT-2 Trafik Levhası",
+      "scale": [
+        "",
+        ""
+      ],
+      "material": "Galvaniz",
+      "explanation": "Dur"
+    },
+    {
+      "picture_name": "t3.gif",
+      "no": "TT-3 Trafik Levhası",
+      "scale": [
+        "",
+        ""
+      ],
+      "material": "Galvaniz",
+      "explanation": "Dur"
+    },
+    {
+      "picture_name": "t4.gif",
+      "no": "TT-4 Trafik Levhası",
+      "scale": [
+        "",
+        ""
+      ],
+      "material": "Galvaniz",
+      "explanation": "Dur"
+    },
+    {
+      "picture_name": "t5.gif",
+      "no": "TT-5 Trafik Levhası",
+      "scale": [
+        "",
+        ""
+      ],
+      "material": "Galvaniz",
+      "explanation": "Dur"
+    },
+    {
+      "picture_name": "t6.gif",
+      "no": "TT-6 Trafik Levhası",
+      "scale": [
+        "",
+        ""
+      ],
+      "material": "Galvaniz",
+      "explanation": "Dur"
+    },
+    {
+      "picture_name": "t2.gif",
+      "no": "TT-2 Trafik Levhası",
+      "scale": [
+        "",
+        ""
+      ],
+      "material": "Galvaniz",
+      "explanation": "Dur"
+    },
+    {
+      "picture_name": "t1.gif",
+      "no": "TT-1 Trafik Levhası",
+      "scale": [
+        "",
+        ""
+      ],
+      "material": "Galvaniz",
+      "explanation": "Yol ver"
+    },
+    {
+      "picture_name": "t2.gif",
+      "no": "TT-2 Trafik Levhası",
+      "scale": [
+        "",
+        ""
+      ],
+      "material": "Galvaniz",
+      "explanation": "Dur"
+    },
+    {
+      "picture_name": "t3.gif",
+      "no": "TT-3 Trafik Levhası",
+      "scale": [
+        "",
+        ""
+      ],
+      "material": "Galvaniz",
+      "explanation": "Dur"
+    },
+    {
+      "picture_name": "t4.gif",
+      "no": "TT-4 Trafik Levhası",
+      "scale": [
+        "",
+        ""
+      ],
+      "material": "Galvaniz",
+      "explanation": "Dur"
+    },
+    {
+      "picture_name": "t5.gif",
+      "no": "TT-5 Trafik Levhası",
+      "scale": [
+        "",
+        ""
+      ],
+      "material": "Galvaniz",
+      "explanation": "Dur"
+    },
+    {
+      "picture_name": "t6.gif",
+      "no": "TT-6 Trafik Levhası",
+      "scale": [
+        "",
+        ""
+      ],
+      "material": "Galvaniz",
+      "explanation": "Dur"
+    },
+    {
+      "picture_name": "t2.gif",
+      "no": "TT-2 Trafik Levhası",
+      "scale": [
+        "",
+        ""
+      ],
+      "material": "Galvaniz",
+      "explanation": "Dur"
+    },
+    {
+      "picture_name": "t1.gif",
+      "no": "TT-1 Trafik Levhası",
+      "scale": [
+        "",
+        ""
+      ],
+      "material": "Galvaniz",
+      "explanation": "Yol ver"
+    },
+    {
+      "picture_name": "t2.gif",
+      "no": "TT-2 Trafik Levhası",
+      "scale": [
+        "",
+        ""
+      ],
+      "material": "Galvaniz",
+      "explanation": "Dur"
+    },
+    {
+      "picture_name": "t3.gif",
+      "no": "TT-3 Trafik Levhası",
+      "scale": [
+        "",
+        ""
+      ],
+      "material": "Galvaniz",
+      "explanation": "Dur"
+    },
+    {
+      "picture_name": "t4.gif",
+      "no": "TT-4 Trafik Levhası",
+      "scale": [
+        "",
+        ""
+      ],
+      "material": "Galvaniz",
+      "explanation": "Dur"
+    },
+    {
+      "picture_name": "t5.gif",
+      "no": "TT-5 Trafik Levhası",
+      "scale": [
+        "",
+        ""
+      ],
+      "material": "Galvaniz",
+      "explanation": "Dur"
+    },
+    {
+      "picture_name": "t6.gif",
+      "no": "TT-6 Trafik Levhası",
+      "scale": [
+        "",
+        ""
+      ],
+      "material": "Galvaniz",
+      "explanation": "Dur"
+    },
+    {
+      "picture_name": "t2.gif",
+      "no": "TT-2 Trafik Levhası",
+      "scale": [
+        "",
+        ""
+      ],
+      "material": "Galvaniz",
+      "explanation": "Dur"
+    },
+    {
+      "picture_name": "t1.gif",
+      "no": "TT-1 Trafik Levhası",
+      "scale": [
+        "",
+        ""
+      ],
+      "material": "Galvaniz",
+      "explanation": "Yol ver"
+    },
+    {
+      "picture_name": "t2.gif",
+      "no": "TT-2 Trafik Levhası",
+      "scale": [
+        "",
+        ""
+      ],
+      "material": "Galvaniz",
+      "explanation": "Dur"
+    },
+    {
+      "picture_name": "t3.gif",
+      "no": "TT-3 Trafik Levhası",
+      "scale": [
+        "",
+        ""
+      ],
+      "material": "Galvaniz",
+      "explanation": "Dur"
+    },
+    {
+      "picture_name": "t4.gif",
+      "no": "TT-4 Trafik Levhası",
+      "scale": [
+        "",
+        ""
+      ],
+      "material": "Galvaniz",
+      "explanation": "Dur"
+    },
+    {
+      "picture_name": "t5.gif",
+      "no": "TT-5 Trafik Levhası",
+      "scale": [
+        "",
+        ""
+      ],
+      "material": "Galvaniz",
+      "explanation": "Dur"
+    },
+    {
+      "picture_name": "t6.gif",
+      "no": "TT-6 Trafik Levhası",
+      "scale": [
+        "",
+        ""
+      ],
+      "material": "Galvaniz",
+      "explanation": "Dur"
+    },
+    {
+      "picture_name": "t2.gif",
+      "no": "TT-2 Trafik Levhası",
+      "scale": [
+        "",
+        ""
+      ],
+      "material": "Galvaniz",
+      "explanation": "Dur"
+    }
+  ],
+  "traffic_cooperation_signs": [
+    {
+      "picture_name": "t1.gif",
+      "no": "TT-1 Trafik Levhası",
+      "scale": [
+        "",
+        ""
+      ],
+      "material": "Galvaniz",
+      "explanation": "Yol ver"
+    },
+    {
+      "picture_name": "t2.gif",
+      "no": "TT-2 Trafik Levhası",
+      "scale": [
+        "",
+        ""
+      ],
+      "material": "Galvaniz",
+      "explanation": "Dur"
+    },
+    {
+      "picture_name": "t3.gif",
+      "no": "TT-3 Trafik Levhası",
+      "scale": [
+        "",
+        ""
+      ],
+      "material": "Galvaniz",
+      "explanation": "Dur"
+    },
+    {
+      "picture_name": "t4.gif",
+      "no": "TT-4 Trafik Levhası",
+      "scale": [
+        "",
+        ""
+      ],
+      "material": "Galvaniz",
+      "explanation": "Dur"
+    },
+    {
+      "picture_name": "t5.gif",
+      "no": "TT-5 Trafik Levhası",
+      "scale": [
+        "",
+        ""
+      ],
+      "material": "Galvaniz",
+      "explanation": "Dur"
+    },
+    {
+      "picture_name": "t6.gif",
+      "no": "TT-6 Trafik Levhası",
+      "scale": [
+        "",
+        ""
+      ],
+      "material": "Galvaniz",
+      "explanation": "Dur"
+    },
+    {
+      "picture_name": "t2.gif",
+      "no": "TT-2 Trafik Levhası",
+      "scale": [
+        "",
+        ""
+      ],
+      "material": "Galvaniz",
+      "explanation": "Dur"
+    }
+  ],
+  "traffic_info_signs": [
+    {
+      "picture_name": "t1.gif",
+      "no": "TT-1 Trafik Levhası",
+      "scale": [
+        "",
+        ""
+      ],
+      "material": "Galvaniz",
+      "explanation": "Yol ver"
+    },
+    {
+      "picture_name": "t2.gif",
+      "no": "TT-2 Trafik Levhası",
+      "scale": [
+        "",
+        ""
+      ],
+      "material": "Galvaniz",
+      "explanation": "Dur"
+    },
+    {
+      "picture_name": "t3.gif",
+      "no": "TT-3 Trafik Levhası",
+      "scale": [
+        "",
+        ""
+      ],
+      "material": "Galvaniz",
+      "explanation": "Dur"
+    },
+    {
+      "picture_name": "t4.gif",
+      "no": "TT-4 Trafik Levhası",
+      "scale": [
+        "",
+        ""
+      ],
+      "material": "Galvaniz",
+      "explanation": "Dur"
+    },
+    {
+      "picture_name": "t5.gif",
+      "no": "TT-5 Trafik Levhası",
+      "scale": [
+        "",
+        ""
+      ],
+      "material": "Galvaniz",
+      "explanation": "Dur"
+    },
+    {
+      "picture_name": "t6.gif",
+      "no": "TT-6 Trafik Levhası",
+      "scale": [
+        "",
+        ""
+      ],
+      "material": "Galvaniz",
+      "explanation": "Dur"
+    },
+    {
+      "picture_name": "t2.gif",
+      "no": "TT-2 Trafik Levhası",
+      "scale": [
+        "",
+        ""
+      ],
+      "material": "Galvaniz",
+      "explanation": "Dur"
+    }
+  ],
+  "traffic_highway_signs": [
+    {
+      "picture_name": "t1.gif",
+      "no": "TT-1 Trafik Levhası",
+      "scale": [
+        "",
+        ""
+      ],
+      "material": "Galvaniz",
+      "explanation": "Yol ver"
+    },
+    {
+      "picture_name": "t2.gif",
+      "no": "TT-2 Trafik Levhası",
+      "scale": [
+        "",
+        ""
+      ],
+      "material": "Galvaniz",
+      "explanation": "Dur"
+    },
+    {
+      "picture_name": "t3.gif",
+      "no": "TT-3 Trafik Levhası",
+      "scale": [
+        "",
+        ""
+      ],
+      "material": "Galvaniz",
+      "explanation": "Dur"
+    },
+    {
+      "picture_name": "t4.gif",
+      "no": "TT-4 Trafik Levhası",
+      "scale": [
+        "",
+        ""
+      ],
+      "material": "Galvaniz",
+      "explanation": "Dur"
+    },
+    {
+      "picture_name": "t5.gif",
+      "no": "TT-5 Trafik Levhası",
+      "scale": [
+        "",
+        ""
+      ],
+      "material": "Galvaniz",
+      "explanation": "Dur"
+    },
+    {
+      "picture_name": "t6.gif",
+      "no": "TT-6 Trafik Levhası",
+      "scale": [
+        "",
+        ""
+      ],
+      "material": "Galvaniz",
+      "explanation": "Dur"
+    },
+    {
+      "picture_name": "t2.gif",
+      "no": "TT-2 Trafik Levhası",
+      "scale": [
+        "",
+        ""
+      ],
+      "material": "Galvaniz",
+      "explanation": "Dur"
+    }
+  ],
+  "traffic_stop_signs": [
+    {
+      "picture_name": "t1.gif",
+      "no": "TT-1 Trafik Levhası",
+      "scale": [
+        "",
+        ""
+      ],
+      "material": "Galvaniz",
+      "explanation": "Yol ver"
+    },
+    {
+      "picture_name": "t2.gif",
+      "no": "TT-2 Trafik Levhası",
+      "scale": [
+        "",
+        ""
+      ],
+      "material": "Galvaniz",
+      "explanation": "Dur"
+    },
+    {
+      "picture_name": "t3.gif",
+      "no": "TT-3 Trafik Levhası",
+      "scale": [
+        "",
+        ""
+      ],
+      "material": "Galvaniz",
+      "explanation": "Dur"
+    },
+    {
+      "picture_name": "t4.gif",
+      "no": "TT-4 Trafik Levhası",
+      "scale": [
+        "",
+        ""
+      ],
+      "material": "Galvaniz",
+      "explanation": "Dur"
+    },
+    {
+      "picture_name": "t5.gif",
+      "no": "TT-5 Trafik Levhası",
+      "scale": [
+        "",
+        ""
+      ],
+      "material": "Galvaniz",
+      "explanation": "Dur"
+    },
+    {
+      "picture_name": "t6.gif",
+      "no": "TT-6 Trafik Levhası",
+      "scale": [
+        "",
+        ""
+      ],
+      "material": "Galvaniz",
+      "explanation": "Dur"
+    },
+    {
+      "picture_name": "t2.gif",
+      "no": "TT-2 Trafik Levhası",
+      "scale": [
+        "",
+        ""
+      ],
+      "material": "Galvaniz",
+      "explanation": "Dur"
+    }
+  ]
+}

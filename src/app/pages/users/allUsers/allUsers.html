@@ -1,0 +1,198 @@
+<div class="header">
+    <H1>Kullanıcı Yönetimi </H1>
+</div>
+<div id="page-wrapper">
+    <div class="container-fluid">
+        <div class="row">
+            <br>
+            <div class="col-lg-4 col-md-4">
+                <div class="pointer" ng-click="setOnlineUsersToPnl()">
+                    <div class="panel panel-success">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-user-plus fa-2x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge">
+                                        <span ng-if="isLoading"><center><i class="fa fa-spinner fa-spin"></i>
+                                        </center></span>
+                                        {{ onlineUsers.length }}
+                                    </div>
+                                    <div>Aktif(Online)
+                                    Kullanıcılar </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6" ng-click="setFreezeUsersToPnl()">
+                <div class="panel panel-info">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <i class="fa fa-user-secret fa-2x"></i>
+                            </div>
+                            <div class="col-xs-9 text-right">
+                                <div class="huge">
+                                    <span ng-if="isLoading"><center><i class="fa fa-spinner fa-spin"></i>
+                                    </center></span>
+                                    {{freezeUsers.length}}
+
+                                </div>
+                                <div>Dondurulmuş
+                                Kullanıcılar</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6" ng-click="setAllUsersToPnl()">
+                <div class="panel panel-warning">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <i class="fa fa-users fa-2x"></i>
+                            </div>
+                            <div class="col-xs-9 text-right">
+                                <div class="huge">
+                                    <span ng-if="isLoading"><center><i class="fa fa-spinner fa-spin"></i>
+                                    </center></span>
+                                    {{allUsers.length}}
+
+                                </div>
+                                <div>Tüm
+                                Kullanıcılar</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="table-responsive">
+
+            <table ng-if="!isLoading" class="table" st-pipe="vm.callServer" st-table="vm.displayed">
+                <thead>
+                <tr>
+                    <th>Kullanıcı Resmi</th>
+                    <th st-sort="name">Adı ve Soyadı</th>
+                    <th st-sort="email">Email</th>
+                    <th>Rol(leri)</th>
+                    <th>Detay</th>
+                    <th>Durumu</th>
+                    <th>İşlem</th>
+                </tr>
+                <tr>
+                    <th></th>
+                    <th><input st-search="name" hint="İsmi giriniz"/></th>
+                    <th><input st-search="email"/></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+
+                </tr>
+                </thead>
+                <tbody>
+                <tbody ng-show="!vm.isLoading">
+                <tr ng-repeat="row in vm.displayed">
+                    <td class="col-md-2">
+                        <center>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="text-center">
+                                            <img
+                                                    src="/client/profilepic/{{row.pictureName}}" class="img-rounded"
+                                                    style="width:5em; height:5em;">
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">{{row.rl}}</div>
+                            </div>
+                        </center>
+                    </td>
+                    <td class="col-md-2">
+                        <div class="row">
+                            <div class="col-md-10">
+                                {{row.name +" "+ row.surname | uppercase}}
+                            </div>
+                        </div>
+                    </td>
+                    <td class="col-md-2">
+                        <div class="row">
+                            <div class="col-md-8">
+                                {{row.email}}
+                            </div>
+                        </div>
+                    </td>
+
+                    <td class="col-md-2">
+                        <div class="row">
+                            <button ng-if="row.manager" title="Yönetici" data-toggle="tooltip" type="button"
+                                    class="col-md-4 btn btn-success btn-circle"><span
+                                    class="fa fa-user-md"> </span>
+                            </button>
+                            <button ng-if="row.controller" title="Kontrolor" data-toggle="tooltip" type="button"
+                                    class="col-md-4 btn btn-info btn-circle"><span
+                                    class="fa fa-bell-o"> </span>
+                            </button>
+                            <button ng-if="row.technician" title="Teknik Ekip" data-toggle="tooltip" type="button"
+                                    class="col-md-4 btn btn-warning btn-circle"><span class="fa fa-cogs"> </span>
+                            </button>
+                        </div>
+                    </td>
+                    <td class="col-md-2">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <button class="btn btn-circle btn-default" type="button" title="Detay Göster"
+                                        ng-click="openUserDetail(row)">
+                                    <i class="glyphicon glyphicon-eye-open"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="col-md-2">
+                        <div class="row">
+                            <button ng-if="row.isLocked" title="Şu an Online" data-toggle="tooltip" type="button"
+                                    class="col-md-4 btn btn-success btn-circle"><span
+                                    class="fa fa-user-plus"> </span>
+                            </button>
+                            <button ng-if="!row.registered" title="Yeni oluşturulmuş ve hiç giriş yapılmamış"
+                                    data-toggle="tooltip" type="button"
+                                    class="col-md-4 btn btn-danger btn-circle"><span
+                                    class="fa fa-user-times"> </span>
+                            </button>
+                            <button ng-if="row.isFreeze" title="Kullanıcı dondurulmuş" data-toggle="tooltip"
+                                    type="button"
+                                    class="col-md-4 btn btn-info btn-circle"><span class="fa fa-user-secret"> </span>
+                            </button>
+                        </div>
+                    </td>
+                    <td>
+                        <button type="button" ng-click="showOperation(row)" title="Kulanıcı İşlem Ekranını açar."
+                                class="btn btn-sm btn-dark">
+                            <i class="fa fa-user-md">
+                            </i>
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+                <tfoot>
+                <tr>
+                    <td class="text-center pagination-centered" st-pagination="" st-items-by-page="10" colspan="4">
+                    </td>
+                </tr>
+                </tfoot>
+            </table>
+            <span ng-if="isLoading"><center><i class="fa fa-spinner fa-spin"></i> Yükleniyor...</center></span>
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,91 @@
+<style>
+    .st-selected > td {
+        background: aliceblue;
+    }
+</style>
+
+<form>
+    <div class="horizontal-scroll">
+
+        <div class="table-responsive">
+            <h3 class="text-center">Toplu Levha İsteği</h3>
+            <table class="table" st-pipe="vm.callServer" st-table="vm.displayed">
+                <thead>
+                <tr>
+                    <th>Seç</th>
+                    <th st-sort="no">Numarası</th>
+                    <th st-sort="plate_type_label">Levha Tipi</th>
+                    <th st-sort="explanation">Açıklama</th>
+                    <th st-sort="picture_name">Levha Resmi</th>
+                    <th>Miktarı</th>
+
+
+                </tr>
+                <tr>
+                    <th><input type="checkbox" ng-click="vm.getSelected()"></th>
+                    <th><input st-search="no"/></th>
+                    <th><input st-search="plate_type_label"/></th>
+                    <th><input st-search="explanation"/></th>
+                    <th><input st-search="picture_name"/></th>
+                    <th></th>
+
+                </tr>
+                </thead>
+                <tbody ng-show="!vm.isLoading">
+                <tr ng-repeat="row in vm.displayed">
+                    <td row-select="row" ng-click="vm.select(row)"></td>
+
+                    <td>{{row.no | uppercase}}</td>
+                    <td>{{row.plate_type_label}}</td>
+                    <td>{{row.explanation }}</td>
+                    <td class="col-md-2">
+                        <center>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="text-center">
+                                            <img
+                                                    src="/client/getpic/{{row.picture_name}}"
+                                                    class="img-rounded"
+                                                    style="width:5em; height:4em;">
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </center>
+                    </td>
+                    <td class="col-md-2">
+
+                        <input class="text-left col-md-6" type="number" ng-model="row.nums">
+
+                    </td>
+
+                </tr>
+                </tbody>
+
+                <tbody ng-show="vm.isLoading">
+                <tr>
+                    <td colspan="6" class="text-center">Yükleniyor ...</td>
+                </tr>
+
+                </tbody>
+                <tfoot>
+                <tr>
+                    <td class="text-center" st-pagination="" st-items-by-page="10" colspan="4">
+                    </td>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-primary submit-button" ng-click="vm.ok(vm.model)"><i
+                    class="fa fa-save"></i> Kaydet
+            </button>
+            <button type="button" class="btn btn-warning" ng-click="vm.options.resetModel()"><i class="fa fa-times"></i>
+                Vazgeç
+            </button>
+        </div>
+    </div>
+</form>

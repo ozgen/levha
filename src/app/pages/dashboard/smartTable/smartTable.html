@@ -1,0 +1,267 @@
+
+<div class="panel">
+    <div class="horizontal-scroll">
+        <table class="table table-condensed" st-table="displayedCollection" st-safe-src="tasks"
+               search-watch-model="search" ng-if="tasks">
+            <thead>
+            <tr class="sortable">
+                <th>Banka</th>
+                <th st-sort="taskNumber" st-skip-natural="true">Rapor</th>
+                <th></th>
+                <th>Rapor Detayları</th>
+                <th>Banka Detayları</th>
+                <th>Durum</th>
+                <th>İşlemler</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="row in displayedCollection">
+                <td class="col-xs-1">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <p></p>
+                            <img ng-src="/client/uploads/{{ row.header.banka.value }}"
+                                 class="img-thumbnail img-circle"
+                                 width="70"
+                                 height="70"
+                                 data-toggle="tooltip" title="{{ row.header.banka.name }}">
+                        </div>
+                    </div>
+                </td>
+                <td class="col-xs-1">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <p></p>
+                            <h5>
+                                <b class="text-info">{{row.taskNumber}}</b>
+                                <small class="text-danger" data-toggle="tooltip" title="Rapor Talep Tarihi">
+                                    {{row.header.rapor_talep_tarihi | date:'dd.MM.yyyy' }}
+                                    {{row.header.rapor_talep_tarihi | date:'HH:mm'}}
+                                </small>
+                                <small class="text-success" data-toggle="tooltip"
+                                       title="Rapor Bitirme Tarihi">
+                                    {{row.header.rapor_bitirme_tarihi | date:'dd.MM.yyyy'}}
+                                    {{row.header.rapor_bitirme_tarihi | date:'HH:mm' }}
+                                </small>
+                                <small class="text-success" data-toggle="tooltip"
+                                       title="Rapor Tanzim Tarihi">
+                                    {{row.header.rapor_tanzim_tarihi | date:'dd.MM.yyyy'}}
+                                    {{row.header.rapor_tanzim_tarihi | date:'HH:mm' }}
+                                </small>
+                            </h5>
+                        </div>
+                    </div>
+                </td>
+                <td class="col-xs-1">
+                    <div class="row">
+                        <div class="col-xs-12 text-center">
+                            <p></p>
+                            <button ng-if="getRaporDueDate(row) >= 0" type="button"
+                                    class="btn btn-success btn-xs">
+                                <b>{{getRaporDueDate(row)}}</b>
+                            </button>
+                            <button ng-if="getRaporDueDate(row) < 0" type="button"
+                                    class="btn btn-danger btn-xs">
+                                <b>{{getRaporDueDate(row)}}</b>
+                            </button>
+                        </div>
+                    </div>
+                </td>
+                <td class="col-xs-2">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <p></p>
+                            <h5>
+                                <b class="text-success">{{row.header.degerleme_turu}}</b>
+                                <br>
+                                <small class="text-danger">{{row.header.degerleme_nedeni}}</small>
+                                <br>
+                                <small ng-if="row.header.operasyon.name" data-toggle="tooltip"
+                                       title="Operasyon Birimi"
+                                       class="text-info">
+                                    <i class="fa fa-user-plus"></i>
+                                    {{row.header.operasyon.name}}
+                                </small>
+                                <br>
+                                <small ng-if="row.header.eksper.name" data-toggle="tooltip"
+                                       title="Değerleme Uzmanı"
+                                       class="text-info">
+                                    <i class="fa fa-user-secret"></i>
+                                    {{row.header.eksper.name}}
+                                </small>
+                                <br>
+                                <small ng-if="row.header.kontrolor.name" data-toggle="tooltip"
+                                       title="Kontrol Uzmanı"
+                                       class="text-info">
+                                    <i class="fa fa-user-md"></i>
+                                    {{row.header.kontrolor.name}}
+                                </small>
+                            </h5>
+                        </div>
+                    </div>
+                </td>
+                <td class="col-xs-2">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <b class="text-danger">{{row.header.banka_referans_no}}</b>
+                            <h5><b class="text-muted">{{row.header.sube.value}}</b><br>
+                                <small>{{row.header.sube.name}}</small>
+                            </h5>
+                        </div>
+                    </div>
+                </td>
+                <td class="col-xs-3">
+                    <div class="row">
+                        <div class="col-md-12 center-block">
+                            <p></p>
+                            <uib-progressbar class="progress-striped active"
+                                             value="row.header.status.value"
+                                             type="{{getType(row.header.status.value)}}">%
+                                {{row.header.status.value}}
+                            </uib-progressbar>
+                            <b class="text-muted">{{ row.header.status.label }}<br></b>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <i class="fa fa-trash-o text-danger" ng-if="row.header.iptal == 'X'"
+                               data-toggle="tooltip"
+                               title="İptal Edildi"></i>
+                            <i class="fa fa-pause text-warning" ng-if="row.header.suspended == 'X'"
+                               data-toggle="tooltip"
+                               title="Donduruldu"></i>
+                            <i class="fa fa-twitch text-success" ng-if="checkTakbisAdded(row.header.files)"
+                               ata-toggle="tooltip"
+                               title="Takbis Eklendi"></i>
+                            <i class="fa fa-check-square-o text-success" ng-if="row.header.status.value === 100"
+                               data-toggle="tooltip"
+                               title="Talep tamamlandı"></i>
+                        </div>
+                    </div>
+                </td>
+                <td class="col-xs-2">
+                    <div class="row">
+                        <div class="col-xs-2" ng-if="!pool">
+                            <button type="button"
+                                    class="btn btn-default btn-xs"
+                                    ng-click="showTask(row)"
+                                    data-toggle="tooltip"
+                                    title="Görüntüle">
+                                <i class="fa fa-eye"></i>
+                            </button>
+                        </div>
+                        <div class="col-xs-2" ng-if="row.header.status.value === 100">
+                            <button type="button"
+                                    class="btn btn-xs btn-default"
+                                    data-toggle="tooltip"
+                                    ng-click="printReport(row)"
+                                    title="Raporu Yazdır">
+                                <i class="fa fa-print"></i>
+                            </button>
+                        </div>
+                        <div class="col-xs-2"
+                             ng-if="((row.header.status.value === 100)&& checkRole('operasyon'))">
+                            <button type="button"
+                                    class="btn btn-xs  btn-default"
+                                    data-toggle="tooltip"
+                                    ng-click="authorizeReport(row)"
+                                    title="Eksperin Görmesi İçin Yetki Ver">
+                                <i class="fa fa-key"></i>
+                            </button>
+                        </div>
+                        <div class="col-xs-2"
+                             ng-if="checkRole('operasyon') &&
+                                    row.header.status.value != 100 &&
+                                    row.header.status.value != 70 &&
+                                    row.header.status.value != 80 &&
+                                    row.header.iptal != 'X'">
+                            <button type="button" class="btn btn-default btn-xs"
+                                    ng-click="changeTask(row)"
+                                    data-toggle="tooltip" data-placement="bottom" title="Değiştir">
+                                <i class="glyphicon glyphicon-edit"></i>
+                            </button>
+                        </div>
+                        <div class="col-xs-2"
+                             ng-if="row.header.iptal != 'X' && row.header.status.value != 100">
+                            <button type="button" class="btn btn-default btn-xs"
+                                    ng-click="setNotesInit(row.taskNumber, row.header.notes)"
+                                    popover-placement="left-bottom"
+                                    popover-title="{{notesPopover.title}}"
+                                    popover-trigger="click"
+                                    uib-popover-template="notesPopover.templateUrl"
+                                    data-toggle="tooltip" title="Notlar">
+                                <i class="fa fa-comments-o"></i>
+                            </button>
+                        </div>
+                        <div class="col-xs-2"
+                             ng-if="checkRole('operasyon') && row.header.iptal != 'X' &&
+                                    (row.header.status.value != 70 &&
+                                    row.header.status.value != 80 &&
+                                    row.header.status.value != 100)">
+                            <button ng-if="row.header.suspended != 'X'"
+                                    type="button" class="btn btn-default btn-xs"
+                                    ng-click="suspendTask(row.taskNumber, row.header.kontrolor.value, row.header)"
+                                    data-toggle="tooltip" title="Dondur"><i class="fa fa-pause"></i>
+                            </button>
+                            <button ng-if="row.header.suspended == 'X'"
+                                    type="button" class="btn btn-default btn-xs"
+                                    ng-click="activateTask(row.taskNumber, row.header)"
+                                    data-toggle="tooltip" title="Aktif et"><i class="fa fa-play"></i>
+                            </button>
+                        </div>
+                        <div class="col-xs-2"
+                             ng-if="checkRole('operasyon') &&
+                                    ow.header.iptal != 'X' &&
+                                    row.header.status.value != 100">
+                            <button type="button" class="btn btn-default btn-xs"
+                                    ng-click="cancelTask(row.taskNumber)"
+                                    data-toggle="tooltip" title="İptal et"><i class="fa fa-trash"></i>
+                            </button>
+                        </div>
+                        <div class="col-xs-2"
+                             ng-if="checkRole('eksper') &&
+                             (row.header.status.value === 10 ||
+                             row.header.status.value === 20 ||
+                             row.header.status.value === 40) &&
+                             row.header.suspended != 'X'">
+                            <button type="button"
+                                    class="btn btn-success btn-xs"
+                                    ng-click="processTask(row.taskNumber, row)"
+                                    data-toggle="tooltip" title="Talebi İşle">
+                                <i class="fa fa-hand-o-right"></i>
+                            </button>
+                        </div>
+                        <div class="col-xs-2" ng-if="checkRole('kontrolor')">
+                            <!--Pool Buttons-->
+                            <button type="button" class="btn btn-success btn-xs"
+                                    ng-if="pool"
+                                    ng-click="checkPoolTask(row.taskNumber)"
+                                    data-toggle="tooltip" title="Kontrol Et">
+                                <i class="fa fa-check-square-o"></i>
+                            </button>
+                            <!--Action Buttons-->
+                            <button type="button" class="btn btn-success btn-xs"
+                                    ng-click="changeTask(row)"
+                                    ng-if="!pool &&
+                                    ( row.header.status.value == 10 ||
+                                    row.header.status.value == 20 ||
+                                     row.header.status.value == 80 ||
+                                     ( checkrole('eksper') && row.header.status.value == 40)) "
+                                    data-toggle="tooltip" data-placement="bottom" title="Raporu İşle">
+                                <i class="fa fa-hand-o-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+            <tfoot>
+            <tr>
+                <td colspan="7" class="text-center">
+                    <div st-pagination="" st-items-by-page="itemsByPage" st-displayed-pages="itemsByPage"></div>
+                </td>
+            </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>

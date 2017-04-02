@@ -1,0 +1,60 @@
+Trafik Levhası
+No: TT-1 Trafik Levhası
+Ölçü:  
+Malzeme: Galvaniz
+Açıklama: Yol ver
+Trafik Levhası
+No:TT-2 Trafik Levhası
+Ölçü:  
+Malzeme: Galvaniz
+Açıklama: Dur
+Trafik Levhası
+No:TT-3 Trafik Levhası
+Ölçü: 
+Malzeme: Galvaniz
+Açıklama: Karşıdan gelen yol ver
+Trafik Levhası
+No:TT-4 Trafik İkaz Levhası
+Ölçü: 
+Malzeme: Galvaniz
+Açıklama: Taşıt Giremez
+Trafik Levhası
+No:TT-5 Trafik İkaz Levhası
+Ölçü:  
+Malzeme: Galvaniz
+Açıklama: Taşıt trafiğine kapalı yol
+İkaz ve uyarı levhası
+No: TT-6 Trafik Levhası
+Ölçü:  
+Malzeme: Galvaniz
+Açıklama: Motosiklet hariç taşıt trafiğine kapalı yol
+Trafik İkaz Levhası
+No: TT-7 Trafik Levhası
+Ölçü: 
+Malzeme: galvaniz
+Açıklama: Motosiklet giremez
+Trafik İkaz Levhası
+No:TT-8 Trafik Levhası
+Ölçü:  
+Malzeme: Galvaniz
+Açıklama: Bisiklet giremez
+Trafik İkaz Levhası
+No: TT-9 Trafik Levhası
+Ölçü:  
+Malzeme: Galvaniz
+Açıklama: Mopet giremez
+Trafik İkaz Levhası
+Kod No: TT-10a
+Ölçü: 
+Malzeme: galvaniz
+Açıklama: Kamyon giremez
+Trafik İkaz Levhası
+No: TT-10b Trafik İkaz Levhası
+Ölçü:  
+Malzeme: Galvaniz
+Açıklama: Otobüs giremez
+Trafik İkaz Levhası
+No: TT-11 Trafik Levhası
+Ölçü:  
+Malzeme: Galvaniz
+Açıklama: Treyler giremez

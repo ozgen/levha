@@ -1,0 +1,27 @@
+<div class="horizontal-scroll">
+    <h3 class="text-center">Levha Tipi Tanımlama</h3>
+    <div class="modal-body">
+        <formly-form model="vm.plateTypeModels" fields="vm.plateTypeModelFields" options="vm.options">
+        </formly-form>
+    </div>
+    <div class="modal-footer">
+
+        <button
+                type="button"
+                class="btn btn-success"
+                ng-click="vm.ok()"
+                data-toggle="tooltip"
+                title="Levha Tipini Kaydet">
+            <i class="fa fa-save"></i> Kaydet
+        </button>
+        <button
+                type="button"
+                class="btn btn-warning"
+                ng-click="vm.cancel()"
+                data-toggle="tooltip"
+                title="Vazgeç">
+            <i class="fa fa-times"></i> İptal
+        </button>
+    </div>
+</div>
+</div>

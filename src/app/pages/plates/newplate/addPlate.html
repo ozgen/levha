@@ -1,0 +1,138 @@
+<form>
+
+    <div class="panel-body" ng-if="!changePlateType">
+        <center><h3><strong>{{title}}</strong></h3></center>
+        <br>
+        <div class="panel-content">
+            <center><img src="/client/getpic/{{vm.model.picture_name}}"></center>
+        </div>
+        <formly-form model="vm.model" fields="vm.fields" options="vm.options">
+        </formly-form>
+        <h5><strong>Ölçüleri</strong></h5>
+        <select class="btn btn-default" style="width: 40%; height: 10%"
+                ng-options="x as x for x in scales" ng-model="vm.model.selScale">
+
+        </select>
+        <br>
+        <br>
+
+        <map-view></map-view>
+        
+        <div class="panel-body" ng-if="changePlateType ">
+
+            <div class="col-lg-12">
+                <formly-form model="vm.platemodel" fields="vm.platefields" form="vm.form">
+                </formly-form>
+            </div>
+            <div class="col-lg-12">
+                <center>
+                    <button class="btn-default btn-primary" ng-click="vm.setPlateType()"> Tamam</button>
+                </center>
+                <br>
+                <br>
+                <div class="col-xs-12" ng-show="isshow">
+                    <div class="table-responsive">
+                        <h3 class="text-center">Levha Tanımları</h3>
+                        <table class="table" st-pipe="vm.callServer" st-table="vm.displayed">
+                            <thead>
+                            <tr>
+
+                                <th st-sort="no">Numarası</th>
+                                <th st-sort="explanation">Açıklama</th>
+                                <th st-sort="material">Malzeme</th>
+                                <th st-sort="picture_name">Levha Resmi</th>
+                                <th>Seç</th>
+
+                            </tr>
+                            <tr>
+                                <th><input st-search="no"/></th>
+                                <th><input st-search="explanation"/></th>
+                                <th><input st-search="material"/></th>
+                                <th><input st-search="picture_name"/></th>
+                                <th></th>
+
+
+                            </tr>
+                            </thead>
+                            <tbody ng-show="!vm.isLoading">
+                            <tr ng-repeat="row in vm.displayed">
+
+                                <td>{{row.no | uppercase}}</td>
+                                <td>{{row.explanation }}</td>
+                                <td>{{row.material }}</td>
+                                <td class="col-md-2">
+                                    <center>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="row">
+                                                    <div class="text-center">
+                                                        <img
+                                                                src="/client/getpic/{{row.picture_name}}"
+                                                                class="img-rounded"
+                                                                style="width:5em; height:4em;">
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="row">{{row.rl}}</div>
+                                        </div>
+                                    </center>
+                                </td>
+                                <td class="col-md-2">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <button type="button" ng-click="vm.selectPlateType(row)" title="Seç"
+                                                    class="btn btn-sm btn-info">
+                                                <i class="fa fa-check-square">
+                                                </i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+
+                            <tbody ng-show="vm.isLoading">
+                            <tr>
+                                <td colspan="6" class="text-center">Yükleniyor ...</td>
+                            </tr>
+                            </tbody>
+                            <tfoot>
+                            <tr>
+                                <td class="text-center" st-pagination="" st-items-by-page="10" colspan="4">
+                                </td>
+                            </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+
+        <div class="modal-footer">
+
+            <center>
+                <button type="button" ng-if="changePlateTempFlag && showUpdateBtn" class="btn btn-warning"
+                        ng-click="vm.cancelPlateTemp()"
+                        tooltip="Levha Tip Değiştirmeyi İptal et"><i class="fa fa-times"></i> İptal
+                </button>
+                <button type="button" ng-if="!changePlateTempFlag && showUpdateBtn" class="btn btn-info"
+                        ng-click="vm.changePlateTemp()">
+                    <i class="fa fa-eject"></i> Levha Tipini Değiştir
+                </button>
+                <button ng-if="vm.model.buttonState ==='update'" type="submit" class="btn btn-primary submit-button"
+                        ng-click="vm.update()"><i class="fa fa-edit"></i> İsteği Güncelle
+                </button>
+                <button ng-if="vm.model.buttonState ==='save'" type="submit" class="btn btn-primary submit-button"
+                        ng-click="vm.ok()"><i class="fa fa-save"></i> İsteği Kaydet
+                </button>
+                <button type="button" class="btn btn-warning" ng-click="vm.cancel()"><i class="fa fa-times"></i> Vazgeç
+                </button>
+            </center>
+        </div>
+
+</form>

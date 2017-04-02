@@ -1,0 +1,110 @@
+<style>
+    table, th, td {
+        border: 1px solid grey;
+        border-collapse: collapse;
+        padding: 5px;
+        width: 95%;
+    }
+
+    table tr:nth-child(odd) {
+        background-color: #ffffff;
+    }
+
+    table tr:nth-child(even) {
+        background-color: #ffffff;
+    }
+
+    .header img {
+        float: left;
+        width: 100px;
+        height: 100px;
+        background: #555;
+    }
+
+    .header h3 {
+        position: relative;
+        top: 18px;
+        left: 330px;
+    }
+</style>
+<form>
+        <div class="modal-body">
+
+            <formly-form model="vm.model" fields="vm.fields" options="vm.options">
+            </formly-form>
+
+        
+        <div class="modal-footer">
+            <button
+                    type="button"
+                    class="btn btn-primary"
+                    ng-click="vm.ok()"
+                    data-toggle="tooltip"
+                    title="İşlemi Onayla">
+                <i class="fa fa-search"></i> Ara
+            </button>
+            <button
+                    type="button"
+                    class="btn btn-warning"
+                    ng-click="vm.options.resetModel()"
+                    data-toggle="tooltip"
+                    title="Vazgeç">
+                <i class="fa fa-times"></i> İptal
+            </button>
+        </div>
+            </div>
+</form>
+
+<div class="col-md-12" ng-if="showPreview">
+    <center>
+        <button class="btn btn-warning btn-circle"
+                ng-click="vm.printPDF()"
+                data-toggle="tooltip"
+                title="PDF Oluştur">
+            <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+        </button>
+    </center>
+</div>
+<div id="pdfToPrint" style="background: #ffffff; " ng-if="showPreview">
+
+    <div class="header">
+        <img src="assets/img/app/logo.png" alt="logo"/>
+        <h3>İstek Levha Raporu</h3>
+    </div>
+    <center>
+
+        <tbody>
+        <table>
+            <thead>
+            <tr>
+
+                <th style="width: 5%"><b>S/N</b></th>
+                <th style="width: 20%"><b>Levha No</b></th>
+                <th style="width: 20%"><b>Levha Tipi</b></th>
+                <th style="width: 20%"><b>İstek tarihi</b></th>
+                <th style="width: 20%"><b>Miat Tarihi</b></th>
+                <th style="width: 20%"><b>Malzeme</b></th>
+                <th style="width: 20%"><b>Ölçüsü</b></th>
+
+            </tr>
+            </thead>
+            <tr ng-repeat=" plate in vm.searchedData">
+                <td style="width: 5%"><font size="2">{{plate.sno}}</font></td>
+                <td style="width: 20%"><font size="2">{{plate.no}}</font></td>
+                <td style="width: 20%"><font size="2">{{plate.plate_type_label}}</font></td>
+                <td style="width: 20%"><font size="2">{{plate.request_date | date : "dd.MM.y"}}</font></td>
+                <td style="width: 20%"><font size="2">{{plate.last_montage_date | date : "dd.MM.y"}}</font></td>
+                <td style="width: 20%"><font size="2">{{plate.material}}</font></td>
+                <td style="width: 20%"><font size="2">{{plate.selScale}}</font></td>
+            </tr>
+        </table>
+        </tbody>
+    </center>
+
+    <div style="margin-left: 80%; margin-top: 5%">
+        <h5>{{personel}}</h5>
+        <h5>{{personel_email}}</h5>
+        <h6>{{printDate | date : "dd.MM.y"}}</h6>
+    </div>
+</div>
+

@@ -1,0 +1,150 @@
+<div>
+    <form>
+        <div class="row">
+            <div class="panel-body">
+
+                <formly-form model="vm.model" fields="vm.fields">
+                </formly-form>
+            </div>
+            <div class="col-lg-12">
+                <center>
+                    <button class="btn-default btn-primary" ng-click="vm.setPlateTypeCombo()"> Tamam</button>
+                </center>
+                <br>
+                <div class="col-xs-12" ng-show="isshow">
+                    <div class="table-responsive">
+                        <h3 class="text-center">Levha Tanımları</h3>
+                        <table class="table" st-pipe="vm.callServer" st-table="vm.displayed">
+                            <thead>
+                            <tr>
+
+                                <th st-sort="no">Numarası</th>
+                                <th st-sort="explanation">Açıklama</th>
+                                <th st-sort="material">Malzeme</th>
+                                <th st-sort="picture_name">Levha Resmi</th>
+                                <th>Seç</th>
+
+                            </tr>
+                            <tr>
+                                <th><input st-search="no"/></th>
+                                <th><input st-search="explanation"/></th>
+                                <th><input st-search="material"/></th>
+                                <th><input st-search="picture_name"/></th>
+                                <th></th>
+
+
+                            </tr>
+                            </thead>
+                            <tbody ng-show="!vm.isLoading">
+                            <tr ng-repeat="row in vm.displayed">
+
+                                <td>{{row.no | uppercase}}</td>
+                                <td>{{row.explanation }}</td>
+                                <td>{{row.material }}</td>
+                                <td class="col-md-2">
+                                    <center>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="row">
+                                                    <div class="text-center">
+                                                        <img
+                                                                src="/client/getpic/{{row.picture_name}}"
+                                                                class="img-rounded"
+                                                                style="width:5em; height:4em;">
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="row">{{row.rl}}</div>
+                                        </div>
+                                    </center>
+                                </td>
+                                <td class="col-md-2">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <button type="button" ng-click="vm.selectPlateType(row)" title="Seç"
+                                                    class="btn btn-sm btn-info">
+                                                <i class="fa fa-check-square">
+                                                </i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+
+                            <tbody ng-show="vm.isLoading">
+                            <tr>
+                                <td colspan="6" class="text-center">Yükleniyor ...</td>
+                            </tr>
+                            </tbody>
+                            <tfoot>
+                            <tr>
+                                <td class="text-center" st-pagination="" st-items-by-page="10" colspan="4">
+                                </td>
+                            </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    <div class="col-lg-12">
+                        <center>
+                            <uib-pagination total-items="totalItems" items-per-page="numPerPage"
+                                            ng-model="currentPage" ng-change="pageChanged()"></uib-pagination>
+                        </center>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- /.col-lg-12 -->
+
+        <div class="panel-body" ng-if="showOther">
+            <center>
+
+        <span ng-if="uploader.queue[0]">
+        <img ng-src="{{ image_source }}" width="150" height="150" class="img-thumbnail"><br>
+        </span>
+                <img ng-if="!uploader.queue[0]" src="assets/img/app/empty.jpg" width="150" height="150"
+                     class="img-thumbnail"><br>
+         <span class="btn btn-primary btn-file">
+        <i href class="change-userpic" class="glyphicon glyphicon-paperclip"></i> Levha Resmi Ekle
+        <input type="file" nv-file-select uploader="uploader" accept="image/*"
+               onchange="angular.element(this).scope().setFile(this)"/>
+        </span>
+
+            </center>
+            <formly-form model="vm.otherModel" fields="vm.otherFields" options="vm.options">
+            </formly-form>
+
+            <map-view ></map-view>
+            <!--
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-xs-12">
+
+                                        <div>
+                                            <leaflet if-center="location"
+                                                     markers="markers"
+                                                     height="480px"
+                                                     width="100%">
+                                            </leaflet>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+            -->
+            <div class="panel-footer" ng-if="showOther">
+                <button type="submit" class="btn btn-primary submit-button" ng-click="vm.ok(vm.otherModel)"><i
+                        class="fa fa-save"></i> Kaydet
+                </button>
+                <button type="button" class="btn btn-warning" ng-click="vm.cancel()"><i class="fa fa-times"></i> Vazgeç
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,33 @@
+<main class="auth-main" style="margin-top: 10%;">
+    <div class="col-sm-4"></div>
+    <div class="auth-block col-sm-4">
+        <div class="form-group text-center">
+            <img src="assets/img/app/logo.png">
+        </div>
+        <form class="form-horizontal" ng-submit="login()">
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <input type="email" class="form-control" id="inputEmail3" placeholder="Email"
+                           ng-model="loginForm.email" ng-required="true">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <input type="password" class="form-control" id="inputPassword3" placeholder="Şifre"
+                           ng-model="loginForm.password" ng-required="true">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <button type="submit" class="btn btn-default btn-auth" ng-if="!loginSpin">
+                        Giriş
+                    </button>
+                    <div class="text-center" ng-if="loginSpin">
+                        <i class="fa fa-spinner fa-spin fa-2x" aria-hidden="true"></i>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</main>
