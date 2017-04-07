@@ -39,42 +39,55 @@
         angular.extend($scope, {
             location: {zoom: 12},
             markers: {},
+            zoomControl: false,
+
             defaults: {
-                maxZoom: 18,
-                minZoom: 0
+                map: {
+                    contextmenu: true,
+                    contextmenuWidth: 140,
+                    contextmenuItems: [{
+                        text: 'Show coordinates',
+                        callback: showCoordinates
+                    }]
+                }
             },
             layers: {
                 baselayers: {
-                    googleHybrid: {
-                        name: 'Karma',
-                        layerType: 'HYBRID',
-                        type: 'google'
-                    },
-                    googleTerrain: {
-                        name: 'Arazi',
-                        layerType: 'TERRAIN',
-                        type: 'google'
-                    },
-                    googleRoadmap: {
-                        name: 'Yol',
-                        layerType: 'ROADMAP',
-                        type: 'google'
+                    osm: {
+                        name: "Ana Harita Katmanı",
+                        type: "xyz",
+                        url: "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                        layerOptions: {
+                            subdomains: ["a", "b", "c"],
+                            attribution: "&copy; <a href=\"http://www.openstreetmap.org/copyright\">YKSTrafik</a> contributors",
+                            continuousWorld: true
+                        }
                     }
-                }
-            },
-            controls: {
-                fullscreen: {
-                    position: 'topright'
                 },
-                scale: true
-            },
-            events: { // or just {} //all events
-                markers: {
-                    enable: ['dragend']
-                    //logic: 'emit'
+                overlays: {
+                    completed: {
+                        name: 'Tamamlanan',
+                        type: 'markercluster',
+                        visible: false
+                    }, ongoing: {
+                        name: 'Devam Eden',
+                        type: 'markercluster',
+                        visible: true
+                    }, notcompleted: {
+                        name: 'Tamamlanmayan',
+                        type: 'markercluster',
+                        visible: false
+                    }
+                },
+                options: {
+                    position: 'bottomleft'
                 }
             }
         });
+
+        function showCoordinates(e) {
+            alert(e.latlng);
+        }
 
         function getPlateReqFromLatLng(latlng) {
             var plateReq = {};
@@ -111,15 +124,25 @@
 
 
             var markerColor = "";
+            var layerName = '';
+            var objname = ''
             switch (data.platePocess) {
                 case 'completed':
                     markerColor = 'green';
+                    layerName = 'completed'
+                    objname = 10;
                     break;
                 case 'notStarted':
                     markerColor = 'blue';
+                    layerName = 'ongoing';
+                    objname = 20;
+
                     break;
                 case 'notCompleted':
                     markerColor = 'red';
+                    layerName = 'notcompleted';
+                    objname = 30;
+
                     break;
                 default:
                     break;
@@ -129,39 +152,37 @@
 
             var locx = 0;
             var locy = 0;
-            var c = 10;
-            if ($scope.markers.length) {
-                c = $scope.markers.length + c + 1;
-            }
+
+
             for (var i in data) {
                 if (data[i].process) {
                     data[i].processLabel = PlateService.getPlateOperationLabel(data[i].process);
                 }
                 locx = parseFloat(data[i].locationx);
                 locy = parseFloat(data[i].locationy);
-                console.log(data[i].picture_name)
                 var src = "";
                 src = '/client/getpic/' + data[i].picture_name;
                 var message = "<b><font color='RED'>" + data[i].no + "</font> </b><br>" +
-                    "<b>Açıklama:</b>" +data[i].explanation +
+                    "<b>Açıklama:</b>" + data[i].explanation +
                     "<br> <b>İstek Tarihi Tarihi: </b>" +
                     $filter('date')(new Date(data[i].request_date), "dd/MM/yyyy");
 
-                $scope.markers[c + i] = {
+                $scope.markers[objname+i] = {
                     lat: locx,
                     lng: locy,
                     focus: true,
                     draggable: false,
                     message: message,
+                    layer: layerName,
                     icon: {
                         iconUrl: src,
                         shadowUrl: '/client/getpic/shadow.png',
 
-                        iconSize:     [38, 40], // size of the icon
-                        shadowSize:   [50, 64], // size of the shadow
-                        iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
+                        iconSize: [38, 40], // size of the icon
+                        shadowSize: [50, 64], // size of the shadow
+                        iconAnchor: [22, 94], // point of the icon which will correspond to marker's location
                         shadowAnchor: [30, 94],  // the same for the shadow
-                        popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+                        popupAnchor: [-3, -76] // point from which the popup should open relative to the iconAnchor
                     }
                 };
             }
@@ -174,13 +195,12 @@
                         map = lfMap;
                         map.scrollWheelZoom.disable();
 
-                        addControlPlaceholders(map);
 
 // Change the position of the Zoom Control to a newly created placeholder.
-                        map.zoomControl.setPosition('verticalcenterright');
+                        addControlPlaceholders(map);
+                        //map.zoomControl.setPosition('verticalcenterright');
 
 // You can also put other controls in the same placeholder.
-                        L.control.scale({position: 'verticalcenterright'}).addTo(map);
 
                         locx = parseFloat($scope.coords.locationx);
                         locy = parseFloat($scope.coords.locationy);
@@ -202,7 +222,6 @@
 
             $scope.isLoading = false;
 
-
         }
 
 
@@ -222,7 +241,7 @@
 
             })
 
-
+            console.log($scope.markers)
         })
         $timeout(function () {
             leafletData.getMap()

@@ -1,16 +1,19 @@
-<div class="panel-body">  <div id="map-wrapper">
+<div class="panel-body">
+    <div id="map-wrapper">
 
-    <div id="map">
-        <leaflet if-center="location"
-                 markers="markers"
-                 height="600px"
-                 width="100%">
-        </leaflet>
+        <div id="map">
+            <leaflet if-center="location"
+                     markers="markers"
+                     height="600px"
+                     width="100%"
+                     defaults="defaults"
+                     layers="layers">
+            </leaflet>
+        </div>
+        <!-- <div id="button-wrapper">
+        <input type="button" id="Btn1" value="Btn1" class="btn-primary" />
+        <input type="button" id="Btn2" value="Btn2" class="btn-default" />
+        <input type="button" id="Btn3" value="Btn3" class="btn-danger" />
+        </div> -->
     </div>
-    <!-- <div id="button-wrapper">
-    <input type="button" id="Btn1" value="Btn1" class="btn-primary" />
-    <input type="button" id="Btn2" value="Btn2" class="btn-default" />
-    <input type="button" id="Btn3" value="Btn3" class="btn-danger" />
-    </div> -->
-</div>
 </div>
