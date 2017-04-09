@@ -21,20 +21,6 @@
         var map = {};
         var latlng = {};
 
-        function addControlPlaceholders(map) {
-            var corners = map._controlCorners,
-                l = 'leaflet-',
-                container = map._controlContainer;
-
-            function createCorner(vSide, hSide) {
-                var className = l + vSide + ' ' + l + hSide;
-
-                corners[vSide + hSide] = L.DomUtil.create('div', className, container);
-            }
-
-            createCorner('verticalcenter', 'left');
-            createCorner('verticalcenter', 'right');
-        }
 
         angular.extend($scope, {
             location: {zoom: 12},
@@ -166,25 +152,26 @@
                     "<b>Açıklama:</b>" + data[i].explanation +
                     "<br> <b>İstek Tarihi Tarihi: </b>" +
                     $filter('date')(new Date(data[i].request_date), "dd/MM/yyyy");
+                if (data[i].locationx) {
+                    $scope.markers[objname + i] = {
+                        lat: locx,
+                        lng: locy,
+                        focus: true,
+                        draggable: false,
+                        message: message,
+                        layer: layerName,
+                        icon: {
+                            iconUrl: src,
+                            shadowUrl: '/client/getpic/shadow.png',
 
-                $scope.markers[objname+i] = {
-                    lat: locx,
-                    lng: locy,
-                    focus: true,
-                    draggable: false,
-                    message: message,
-                    layer: layerName,
-                    icon: {
-                        iconUrl: src,
-                        shadowUrl: '/client/getpic/shadow.png',
-
-                        iconSize: [38, 40], // size of the icon
-                        shadowSize: [50, 64], // size of the shadow
-                        iconAnchor: [22, 94], // point of the icon which will correspond to marker's location
-                        shadowAnchor: [30, 94],  // the same for the shadow
-                        popupAnchor: [-3, -76] // point from which the popup should open relative to the iconAnchor
-                    }
-                };
+                            iconSize: [38, 40], // size of the icon
+                            shadowSize: [50, 64], // size of the shadow
+                            iconAnchor: [22, 94], // point of the icon which will correspond to marker's location
+                            shadowAnchor: [30, 94],  // the same for the shadow
+                            popupAnchor: [-3, -76] // point from which the popup should open relative to the iconAnchor
+                        }
+                    };
+                }
             }
 
 
@@ -194,17 +181,13 @@
 
                         map = lfMap;
                         map.scrollWheelZoom.disable();
-
-
-// Change the position of the Zoom Control to a newly created placeholder.
-                        addControlPlaceholders(map);
-                        //map.zoomControl.setPosition('verticalcenterright');
-
-// You can also put other controls in the same placeholder.
-
                         locx = parseFloat($scope.coords.locationx);
                         locy = parseFloat($scope.coords.locationy);
                         map.panTo(new L.LatLng(locx, locy)).setZoom(12);
+                        L.control.scale({
+                            imperial: false
+                        }).addTo(map);
+                        map.zoomControl.setPosition('topright');
 
 
                     })
@@ -397,7 +380,9 @@
 
         }
 
-
+        $scope.$on('$destroy', function () {
+            map.remove();
+        });
     }
 })
 ();

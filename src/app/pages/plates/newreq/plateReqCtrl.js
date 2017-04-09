@@ -1,14 +1,16 @@
+/**
+ * Created by Ozgen on 4/9/17.
+ */
 
 (function () {
     'use strict';
 
     angular.module('BlurAdmin.pages.plate')
-        .controller('plateCtrl', plateCtrl);
+        .controller('newPlateReqCtrl', newPlateReqCtrl);
 
     /** @ngInject */
-    function plateCtrl($scope, $state, $uibModal, toastr, PlateService, $cookieStore, $filter, $timeout, leafletData,
-                       FileUploader, SweetAlert, AuthService, DefService) {
-
+    function newPlateReqCtrl($scope, $state, $uibModal, toastr, PlateService, leafletData,
+                             FileUploader, SweetAlert, AuthService, DefService, MapService) {
 
         var vm = this;
         $scope.filteredPlateTypes = []
@@ -17,6 +19,7 @@
             , $scope.maxSize = 5;
         $scope.showSpinner = false;
         vm.model = {};
+       
         DefService.getPlateTypeFields(false).then(function (fields) {
 
             vm.fields = fields;
@@ -28,14 +31,129 @@
         $scope.showOther = false;
 
         $scope.isshow = false;
+        var mapPlate;
+        var refreshBtn;
+        var sidebar;
+        $scope.showSlideBar = false;
+        var locArray = [];
 
         //location
         var locx = 0;
         var locy = 0;
 
+        angular.extend($scope, {
+            location: {
+                lat: 51.505,
+                lng: -0.09,
+                zoom: 12
+            },
+            markers: {},
+            zoomControl: false,
+
+            defaults: {
+                map: {
+                    contextmenu: true,
+                    contextmenuWidth: 140,
+                    contextmenuItems: [{
+                        text: 'Levha İsteği Oluştur',
+                        callback: createPlateReq
+                    }]
+                }
+            },
+            layers: {
+                baselayers: {
+                    osm: {
+                        name: "Ana Harita Katmanı",
+                        type: "xyz",
+                        url: "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                        layerOptions: {
+                            subdomains: ["a", "b", "c"],
+                            attribution: "&copy; <a href=\"http://www.openstreetmap.org/copyright\">YKSTrafik</a> contributors",
+                            continuousWorld: true
+                        }
+                    }
+                },
+                overlays: {
+                    newreq: {
+                        name: 'İstekler',
+                        type: 'markercluster',
+                        visible: true
+                    }
+                },
+                options: {
+                    position: 'bottomleft'
+                }
+            }
+        });
+
+        function createPlateReq(e) {
+            if (locArray.length > 0) {
+                $scope.showSlideBar = true;
+                sidebar.show();
+            } else {
+                toastr.error("Lütfen haritadan en az bir konum seçiniz.");
+            }
+        }
+
         AuthService.getCoords().then(function (data) {
             $scope.coords = data;
+            updateMap(data);
+
         })
+
+        function updateMap(data) {
+
+            MapService.getTheMap().then(function (map) {
+                $scope.showRegionMap = true;
+                mapPlate = map;
+
+                map.on("click", function (e) {
+                    L.marker([e.latlng.lat, e.latlng.lng], {
+                        icon: L.AwesomeMarkers.icon({
+                            icon: 'cog',
+                            prefix: 'glyphicon',
+                            markerColor: 'red'
+                        })
+                    }).addTo(mapPlate);
+                    locArray.push({locationx: e.latlng.lat, locationy: e.latlng.lng})
+                    console.log(locArray)
+
+                });
+                if (data === undefined)
+                    data = $scope.coords;
+                locx = parseFloat(data.locationx);
+                locy = parseFloat(data.locationy);
+
+                mapPlate.setView(new L.LatLng(locx, locy), 12);
+                mapPlate.invalidateSize();
+                L.control.scale({
+                    imperial: false
+                }).addTo(map);
+                mapPlate.zoomControl.setPosition('topright');
+                if (refreshBtn === undefined) {
+                    MapService.addRefreshBtn(mapPlate);
+                }
+                sidebar = L.control.sidebar('sidebar', {
+                    closeButton: true,
+                    position: 'left'
+                });
+                mapPlate.addControl(sidebar);
+                sidebar.on('shown', function () {
+                    console.log('Sidebar is visible.');
+                });
+                sidebar.on('hide', function () {
+                    console.log('Sidebar will be hidden.');
+                });
+                sidebar.on('hidden', function () {
+                    console.log('Sidebar is hidden.');
+                });
+                L.DomEvent.on(sidebar.getCloseButton(), 'click', function () {
+                    console.log('Close button clicked.');
+                });
+
+            })
+
+        }
 
         vm.setPlateTypeCombo = function () {
 
@@ -85,10 +203,11 @@
 
         vm.selectPlateType = function (data) {
             data.plate_type = vm.model.plate_type;
-
+            data.locArray = locArray;
+            sidebar.hide();
             $uibModal.open({
-                    templateUrl: "app/pages/plates/newplate/addPlate.html",
-                    controller: "addPlateCtrl",
+                    templateUrl: "app/pages/plates/newreq/addnewReq.html",
+                    controller: "newAddPlateCtrl",
                     controllerAs: "vm",
                     backdrop: 'static',
                     size: 'lg',
@@ -103,45 +222,6 @@
 
         }
 
-        angular.extend($scope, {
-            location: {},
-            markers: {},
-            defaults: {
-                maxZoom: 18,
-                minZoom: 0
-            },
-            layers: {
-                baselayers: {
-                    googleHybrid: {
-                        name: 'Karma',
-                        layerType: 'HYBRID',
-                        type: 'google'
-                    },
-                    googleTerrain: {
-                        name: 'Arazi',
-                        layerType: 'TERRAIN',
-                        type: 'google'
-                    },
-                    googleRoadmap: {
-                        name: 'Yol',
-                        layerType: 'ROADMAP',
-                        type: 'google'
-                    }
-                }
-            },
-            controls: {
-                fullscreen: {
-                    position: 'topright'
-                },
-                scale: true
-            },
-            events: { // or just {} //all events
-                markers: {
-                    enable: ['dragend']
-                    //logic: 'emit'
-                }
-            }
-        });
 
         var uploader = $scope.uploader = new FileUploader({
             url: '/client/upload'
@@ -162,34 +242,6 @@
 
         };
 
-        $timeout(function () {
-
-            leafletData.getMap().then(function (lfMap) {
-
-                var marker;
-                lfMap.scrollWheelZoom.disable();
-
-                locx = parseFloat($scope.coords.locationx);
-                locy = parseFloat($scope.coords.locationy);
-                lfMap.panTo(new L.LatLng(locx, locy)).setZoom(12);
-
-                lfMap.on("click", function (e) {
-                    if (marker)
-                        lfMap.removeLayer(marker);
-                    marker = L.marker([e.latlng.lat, e.latlng.lng], {
-                        icon: L.AwesomeMarkers.icon({
-                            icon: 'cog',
-                            prefix: 'glyphicon',
-                            markerColor: 'red'
-                        })
-                    }).addTo(lfMap);
-                    vm.otherModel.locationx = e.latlng.lat;
-                    vm.otherModel.locationy = e.latlng.lng;
-
-                    vm.markers = marker;
-                });
-            });
-        }, 300);
 
         vm.cancel = function cancel() {
             $scope.otherModel = {};
@@ -239,6 +291,10 @@
             }
 
         }
+
+        $scope.$on('$destroy', function () {
+            mapPlate.remove();
+        });
 
 
     }

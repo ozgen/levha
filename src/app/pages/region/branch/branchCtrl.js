@@ -24,6 +24,7 @@
         var roleAdmin = AuthService.checkRole('admin');
         $scope.regList = [];
         $scope.openDefBranch = true;
+        var refreshBtn;
 
         var locx = 0;
         var locy = 0;
@@ -52,24 +53,8 @@
         $scope.showRegionMap = false;
 
 
-        function addControlPlaceholders(map) {
-            var corners = map._controlCorners,
-                l = 'leaflet-',
-                container = map._controlContainer;
-
-            function createCorner(vSide, hSide) {
-                var className = l + vSide + ' ' + l + hSide;
-
-                corners[vSide + hSide] = L.DomUtil.create('div', className, container);
-            }
-
-            createCorner('verticalcenter', 'left');
-            createCorner('verticalcenter', 'right');
-        }
-
-
         $scope.updateMap = function (data) {
-            
+
             MapService.getTheMap().then(function (map) {
 
                 mapBranch = map;
@@ -77,7 +62,9 @@
                 locx = parseFloat(data.locationx);
                 locy = parseFloat(data.locationy);
                 mapBranch.setView(new L.LatLng(locx, locy)).setZoom(12);
-
+                if (refreshBtn === undefined) {
+                    MapService.addRefreshBtn(map);
+                }
                 mapBranch.on("click", function (e) {
                     if (marker)
                         mapBranch.removeLayer(marker);

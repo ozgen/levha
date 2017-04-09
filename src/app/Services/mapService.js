@@ -8,8 +8,10 @@ angular.module('mapService', [])
             getTheMap: getTheMap,
             addControlPlaceholders: addControlPlaceholders,
             getTheMapWithCentered: getTheMapWithCentered,
-            addMarkersToLayerGroup: addMarkersToLayerGroup
+            addMarkersToLayerGroup: addMarkersToLayerGroup,
+            addRefreshBtn: addRefreshBtn
         })
+
 
         function addControlPlaceholders(map) {
             var corners = map._controlCorners,
@@ -31,21 +33,12 @@ angular.module('mapService', [])
             $timeout(function () {
                 leafletData.getMap().then(function (lfMap) {
                     lfMap.scrollWheelZoom.disable();
-                    addControlPlaceholders(lfMap);
 
 
                     L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-                        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                        attribution: '&copy; <a href="http://osm.org/copyright">YKSTrafik</a> contributors'
                     }).addTo(lfMap);
                     deferred.resolve(lfMap);
-                    lfMap.zoomControl.setPosition('verticalcenterright');
-                    var refreshBtn = L.easyButton('fa-refresh', function (btn, map) {
-
-                        map.invalidateSize();
-
-                    }).addTo(lfMap);
-
-                    refreshBtn.setPosition('bottomright');
 
 
                 });
@@ -62,30 +55,38 @@ angular.module('mapService', [])
             $timeout(function () {
                 leafletData.getMap().then(function (lfMap) {
                     lfMap.scrollWheelZoom.disable();
-                    addControlPlaceholders(lfMap);
-
                     L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-                        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                        attribution: '&copy; <a href="http://osm.org/copyright">YKSTrafik</a> contributors'
                     }).addTo(lfMap);
                     AuthService.getCoords().then(function (data) {
                         var locx = parseFloat(data.locationx);
                         var locy = parseFloat(data.locationy);
                         lfMap.setView(new L.LatLng(locx, locy), 12);
                     })
+
                     deferred.resolve(lfMap);
-                    lfMap.zoomControl.setPosition('verticalcenterright');
-                    var refreshBtn = L.easyButton('fa-refresh', function (btn, map) {
 
-                        map.invalidateSize();
 
+                    L.control.scale({
+                        imperial: false
                     }).addTo(lfMap);
-
-                    refreshBtn.setPosition('bottomright');
-
+                    lfMap.zoomControl.setPosition('topright');
                 });
             }, 500);
 
             return deferred.promise;
+        }
+
+        function addRefreshBtn(lfMap) {
+            var refreshBtn = L.easyButton('fa-refresh', function (btn, map) {
+
+                map.invalidateSize();
+
+            }).addTo(lfMap);
+
+
+            refreshBtn.setPosition('bottomright');
+
         }
 
         function addMarkersToLayerGroup(markerGroup, groupName) {

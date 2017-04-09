@@ -1,0 +1,31 @@
+<form>
+
+    <div class="panel-body">
+        <center><h3><strong>{{title}}</strong></h3></center>
+        <br>
+        <div class="panel-content">
+            <center><img src="/client/getpic/{{vm.model.picture_name}}"></center>
+        </div>
+        <formly-form model="vm.model" fields="vm.fields" options="vm.options">
+        </formly-form>
+        <h5><strong>Ölçüleri</strong></h5>
+        <select class="btn btn-default" style="width: 40%; height: 10%"
+                ng-options="x as x for x in scales" ng-model="vm.model.selScale">
+
+        </select>
+        <br>
+        <br>
+
+        <div class="modal-footer">
+
+            <center>
+
+                <button  type="submit" class="btn btn-primary submit-button"
+                        ng-click="vm.ok()"><i class="fa fa-save"></i> İsteği Kaydet
+                </button>
+                <button type="button" class="btn btn-warning" ng-click="vm.cancel()"><i class="fa fa-times"></i> Vazgeç
+                </button>
+            </center>
+        </div>
+
+</form>

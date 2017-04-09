@@ -21,9 +21,9 @@
                 requireLogin: true
             }).state('plate.newplatereq', {
             url: '/newplatereq',
-            templateUrl: 'app/pages/plates/newplate/newplate.html',
+            templateUrl: 'app/pages/plates/newreq/newreq.html',
             title: 'Yeni Levha İsteği',
-            controller: 'plateCtrl',
+            controller: 'newPlateReqCtrl',
             controllerAs: 'vm',
             sidebarMeta: {
                 icon: 'ion-plus',

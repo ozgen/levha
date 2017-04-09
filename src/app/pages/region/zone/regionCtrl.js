@@ -11,7 +11,6 @@
     /** @ngInject */
     function regionCtrl($scope, $uibModal, toastr, DefService, $cookieStore, SweetAlert,
                         FileUploader, leafletData, $timeout, AuthService, MapService) {
-
         var vm = this;
         vm.regionModel = {};
         $scope.markers = [];
@@ -19,7 +18,8 @@
         $scope.openDefRegion = false;
         var locx = 0;
         var locy = 0;
-
+        var marker;
+        var refreshBtn;
         AuthService.getCoords().then(function (data) {
             $scope.coords = data;
             $scope.updateMap(data);
@@ -28,92 +28,12 @@
 
         $scope.status = false;
         $scope.showRegionMap = false;
-
-        angular.extend($scope, {
-            id: 1,
-            location: {zoom: 12},
-            markers: {},
-            defaults: {
-                maxZoom: 18,
-                minZoom: 0
-            },
-            layers: {
-                baselayers: {
-                    googleHybrid: {
-                        name: 'Karma',
-                        layerType: 'HYBRID',
-                        type: 'google'
-                    },
-                    googleTerrain: {
-                        name: 'Arazi',
-                        layerType: 'TERRAIN',
-                        type: 'google'
-                    },
-                    googleRoadmap: {
-                        name: 'Yol',
-                        layerType: 'ROADMAP',
-                        type: 'google'
-                    }
-                }
-            },
-            controls: {
-                fullscreen: {
-                    position: 'topright'
-                },
-                scale: true
-            },
-            events: { // or just {} //all events
-                markers: {
-                    enable: ['dragend']
-                    //logic: 'emit'
-                }
-            }
-        });
-
+        vm.regionFields = DefService.getRegionFields(false);
+        $scope.showRegionMap = false;
 
 
 
         $scope.updateMap = function (data) {
-            /*         $timeout(function () {
-             if (data === undefined)
-             data = $scope.coords;
-             leafletData.getMap().then(function (lfMap) {
-             mapRegion = lfMap;
-             var marker;
-             $scope.showRegionMap = true;
-             mapRegion.scrollWheelZoom.disable();
-             mapRegion.scrollWheelZoom.disable();
-
-             addControlPlaceholders(mapRegion);
-
-             mapRegion.zoomControl.setPosition('verticalcenterright');
-
-             // You can also put other controls in the same placeholder.
-             L.control.scale({position: 'verticalcenterright'}).addTo(mapRegion);
-
-
-             mapRegion.on("click", function (e) {
-             if (marker)
-             mapRegion.removeLayer(marker);
-             marker = L.marker([e.latlng.lat, e.latlng.lng], {
-             icon: L.AwesomeMarkers.icon({
-             icon: 'cog',
-             prefix: 'glyphicon',
-             markerColor: 'red'
-             })
-             }).addTo(mapRegion);
-             vm.regionModel.locationx = e.latlng.lat;
-             vm.regionModel.locationy = e.latlng.lng;
-
-
-             });
-
-             locx = parseFloat(data.locationx);
-             locy = parseFloat(data.locationy);
-             mapRegion.panTo(new L.LatLng(locx, locy)).setZoom(11);
-
-             });
-             }, 2000); */
 
             MapService.getTheMap().then(function (map) {
                 $scope.showRegionMap = true;
@@ -137,40 +57,15 @@
                     data = $scope.coords;
                 locx = parseFloat(data.locationx);
                 locy = parseFloat(data.locationy);
-                map.setView(new L.LatLng(locx, locy), 12);
-
+                map.setView(new L.LatLng(locx, locy), 8);
+                if (refreshBtn === undefined) {
+                    MapService.addRefreshBtn(map);
+                }
 
             })
 
         }
 
-        vm.regionFields = DefService.getRegionFields(false);
-        $scope.showRegionMap = false;
-        MapService.getTheMapWithCentered().then(function (map) {
-            $scope.showRegionMap = true;
-            mapRegion = map;
-            var marker;
-            map.on("click", function (e) {
-                if (marker)
-                    map.removeLayer(marker);
-                marker = L.marker([e.latlng.lat, e.latlng.lng], {
-                    icon: L.AwesomeMarkers.icon({
-                        icon: 'cog',
-                        prefix: 'glyphicon',
-                        markerColor: 'red'
-                    })
-                }).addTo(map);
-                vm.regionModel.locationx = e.latlng.lat;
-                vm.regionModel.locationy = e.latlng.lng;
-
-            });
-
-            locx = parseFloat($scope.coords.locationx);
-            locy = parseFloat($scope.coords.locationy);
-            map.setView(new L.LatLng(locx, locy), 12);
-
-
-        })
 
         // mapRegion.panTo(new L.LatLng(locx, locy)).setZoom(12);
 
@@ -299,7 +194,7 @@
             vm.options.resetModel();
             vm.regionModel = {};
             vm.callServer($scope.tablestate);
-
+            $scope.updateMap();
         }
 
     }

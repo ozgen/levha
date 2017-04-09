@@ -296,9 +296,9 @@ angular.module('BlurAdmin', [
     .directive('rowSelect', rowSelect)
 
     .directive('mapView', function () {
-        return{
-            templateUrl:'app/directives/map.html'
-           
+        return {
+            templateUrl: 'app/directives/map.html',
+            
         }
     })
 

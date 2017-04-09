@@ -6,6 +6,7 @@ angular.module('plateService', [])
 
         return ({
             getPlateFields: getPlateFields,
+            getNewAddPlateFields:getNewAddPlateFields,
             getPlateTypes: getPlateTypes,
             getPlatePic: getPlatePic,
             getAddPlateFields: getAddPlateFields,
@@ -113,6 +114,115 @@ angular.module('plateService', [])
 
             return deffered.promise;
 
+        }
+        function getNewAddPlateFields(readOnly) {
+            return [
+                {
+                    className: 'row',
+                    fieldGroup: [
+                        {
+                            className: 'col-xs-12',
+                            type: 'input',
+                            key: 'no',
+                            templateOptions: {
+                                label: 'No',
+                                type: 'text'
+                            },
+                            expressionProperties: {
+                                'templateOptions.disabled': function ($viewValue, $modelValue, scope) {
+                                    return true;
+                                }
+                            }
+                        }, {
+                            className: 'col-xs-12',
+                            type: 'input',
+                            key: 'material',
+                            templateOptions: {
+                                label: 'Yapıldığı Malzeme',
+                                type: 'text'
+                            },
+                            expressionProperties: {
+                                'templateOptions.disabled': function ($viewValue, $modelValue, scope) {
+                                    return readOnly;
+                                }
+                            }
+                        },
+                        {
+                            className: 'col-xs-12',
+                            type: 'textarea',
+                            key: 'explanation',
+                            templateOptions: {
+                                label: 'Açıklama',
+                                type: 'text'
+                            },
+                            expressionProperties: {
+                                'templateOptions.disabled': function ($viewValue, $modelValue, scope) {
+                                    return true;
+                                }
+                            }
+                        }, {
+                            className: 'col-xs-12',
+                            type: 'datetimepicker',
+                            key: 'request_date',
+                            templateOptions: {
+                                label: 'İstek Tarihi'
+                            },
+                            expressionProperties: {
+                                'templateOptions.disabled': function ($viewValue, $modelValue, scope) {
+                                    return readOnly;
+                                }
+                            }
+                        },
+                        {
+                            className: 'col-xs-12',
+                            type: 'datetimepicker',
+                            key: 'expiration_date',
+                            templateOptions: {
+                                label: 'Son Kullanma Tarihi'
+                            },
+                            expressionProperties: {
+                                'templateOptions.disabled': function ($viewValue, $modelValue, scope) {
+                                    return readOnly;
+                                }
+                            }
+                        },
+                        {
+                            className: 'col-xs-12',
+                            type: 'datetimepicker',
+                            key: 'last_montage_date',
+                            templateOptions: {
+                                label: 'Miat Tarihi'
+                            },
+                            expressionProperties: {
+                                'templateOptions.disabled': function ($viewValue, $modelValue, scope) {
+                                    return readOnly;
+                                }
+                            }
+                        },
+                        {
+                            className: 'col-xs-12',
+                            key: 'emergency',
+                            type: 'select',
+                            templateOptions: {
+                                type: 'text',
+                                label: 'Aciliyet Durumu',
+                                required: true,
+                                options: [
+                                    {name: "Çok Önemli", value: 1},
+                                    {name: "Onemli", value: 2},
+                                    {name: "Az önemli", value: 3},
+                                    {name: "Diğer", value: 4}
+
+                                ]
+                            },
+                            expressionProperties: {
+                                'templateOptions.disabled': function ($viewValue, $modelValue, scope) {
+                                    return readOnly;
+                                }
+                            }
+                        }
+                    ]
+                }]
         }
 
         function getAddPlateFields(readOnly) {
