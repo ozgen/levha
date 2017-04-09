@@ -19,7 +19,7 @@
             , $scope.maxSize = 5;
         $scope.showSpinner = false;
         vm.model = {};
-       
+
         DefService.getPlateTypeFields(false).then(function (fields) {
 
             vm.fields = fields;
@@ -33,6 +33,7 @@
         $scope.isshow = false;
         var mapPlate;
         var refreshBtn;
+        var btnReq;
         var sidebar;
         $scope.showSlideBar = false;
         var locArray = [];
@@ -132,6 +133,18 @@
                 mapPlate.zoomControl.setPosition('topright');
                 if (refreshBtn === undefined) {
                     MapService.addRefreshBtn(mapPlate);
+                }
+                if (btnReq === undefined) {
+                    btnReq = L.easyButton('fa-edit', function (btn, map) {
+
+                        if (locArray.length > 0) {
+                            $scope.showSlideBar = true;
+                            sidebar.show();
+                        } else {
+                            toastr.error("Lütfen haritadan en az bir konum seçiniz.");
+                        }
+                    }).addTo(mapPlate);
+                    btnReq.setPosition('topright');
                 }
                 sidebar = L.control.sidebar('sidebar', {
                     closeButton: true,
