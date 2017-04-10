@@ -109,15 +109,26 @@
                 mapPlate = map;
 
                 map.on("click", function (e) {
-                    L.marker([e.latlng.lat, e.latlng.lng], {
+                    var marker = L.marker([e.latlng.lat, e.latlng.lng], {
                         icon: L.AwesomeMarkers.icon({
                             icon: 'cog',
                             prefix: 'glyphicon',
                             markerColor: 'red'
-                        })
-                    }).addTo(mapPlate);
+
+                        }),
+                        draggable: true
+                    }).on('click', onClick);
+
+                    function onClick(e) {
+                        mapPlate.removeLayer(this);
+                    }
+
+                    mapPlate.addLayer(marker);
                     locArray.push({locationx: e.latlng.lat, locationy: e.latlng.lng})
-                    console.log(locArray)
+
+                    $scope.removeMarker = function (marker) {
+                        mapPlate.removeLayer(marker);
+                    }
 
                 });
                 if (data === undefined)

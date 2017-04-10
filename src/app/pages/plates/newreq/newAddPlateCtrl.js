@@ -74,6 +74,7 @@
 
                                 toastr.success("İstek başarıyla yaratıldı");
                                 $uibModalInstance.close();
+                                location.reload();
                             }, function (err) {
                                 $scope.isLoading = false;
                                 toastr.error("Kayıt sırasında hata!");
