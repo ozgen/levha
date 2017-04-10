@@ -54,24 +54,34 @@
                 function (isConfirm) {
                     if (isConfirm) {
                         // call logout from service
-                        for (var i = 0; i < locationArr.length; i++) {
-                            var loc = locationArr[i];
+                        vm.model.status = 0;
+                        vm.model._id = undefined;
+                        var dataArr = [];
+                        var models = vm.model;
+                        for (var i = 0; i < locationArr.length;) {
+                            var data = new Object();
+                            data = angular.copy(models);
+                            data.locationx = locationArr[i].locationx.toString();
+                            data.locationy = locationArr[i].locationy.toString();
+                            dataArr.push(data);
 
-                            vm.model.status = 0;
-                            vm.model._id = undefined;
-                            vm.model.locationx = parseFloat(loc.locationx);
-                            vm.model.locationy = parseFloat(loc.locationy);
-                            PlateService.savePlateReq(vm.model).then(function (data) {
+                            if (dataArr.length === (i + 1)) {
+                                i++;
+                            }
+                        }
+                        if (dataArr.length === locationArr.length) {
+                            PlateService.savePlateReq(dataArr).then(function (data) {
 
-
+                                toastr.success("İstek başarıyla yaratıldı");
+                                $uibModalInstance.close();
                             }, function (err) {
                                 $scope.isLoading = false;
                                 toastr.error("Kayıt sırasında hata!");
-                                return;
                             })
+
                         }
-                        toastr.success("İstek başarıyla yaratıldı");
-                        $uibModalInstance.close();
+
+
                     }
                 });
 

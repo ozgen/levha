@@ -28,19 +28,26 @@ exports.getPlateDataWithLocal = function (req, res, next) {
 exports.savePlateRequest = function (req, res) {
 
     const email = Authentication.parseToken(req.headers.authorization);
-    var plateReq = new PlateRequest(req.body);
-    plateReq.useremail = email.sub;
-    plateReq.process = 'created';
-    plateReq.is_deleted = 0;
-    if (req.headers.region !== 'undefined')
-        plateReq.region = req.headers.region;
-    if (req.headers.branch !== 'undefined')
-        plateReq.branch = req.headers.branch;
-    plateReq.save(function (err, plate) {
-        console.log('PlateBusiniess.savePlateRequest : '+err);
+    var data = req.body;
+    var dataArr = [];
+    for (var i = 0; i < data.length; i++) {
+        var plateReq = new PlateRequest(data[i]);
+        plateReq.useremail = email.sub;
+        plateReq.process = 'created';
+        plateReq.is_deleted = 0;
+        if (req.headers.region !== 'undefined')
+            plateReq.region = req.headers.region;
+        if (req.headers.branch !== 'undefined')
+            plateReq.branch = req.headers.branch;
+        dataArr.push(plateReq);
+    }
+
+    PlateRequest.insertMany(dataArr, function (error, docs) {
+        if (error) return res.status(500).send(error);
+        return res.status(200).send(docs);
+
     });
 
-    return res.status(200).send(plateReq);
 }
 
 exports.getPlateReqMonthly = function (req, res) {
@@ -252,7 +259,7 @@ exports.getAllApprovablePlates = function (req, res) {
         return res.status(200).send(data);
 
     });
-    
+
 }
 
 exports.getPlates = function (req, res) {
