@@ -41,7 +41,7 @@
                                     </div>
                                     <br>
                                     <div>Onay
-                                        Bekler </div>
+                                    Bekler </div>
                                 </div>
                             </div>
                         </div>
@@ -258,6 +258,15 @@
                 </tr>
                 </tfoot>
             </table>
+        </div>
+        <div class="panel-footer"  ng-if="!showProcess">
+            <center>
+                <button type="button" ng-click="approveAllPlateReq()" title="Onayla"
+                        class="btn btn-sm btn-success">
+                    <i class="fa fa-check">
+                    </i> Hepsini Onayla
+                </button>
+            </center>
         </div>
         <span ng-if="isLoading"><center><i class="fa fa-spinner fa-spin"></i> Yükleniyor...</center></span>
     </div>

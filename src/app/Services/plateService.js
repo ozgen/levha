@@ -6,7 +6,7 @@ angular.module('plateService', [])
 
         return ({
             getPlateFields: getPlateFields,
-            getNewAddPlateFields:getNewAddPlateFields,
+            getNewAddPlateFields: getNewAddPlateFields,
             getPlateTypes: getPlateTypes,
             getPlatePic: getPlatePic,
             getAddPlateFields: getAddPlateFields,
@@ -26,7 +26,8 @@ angular.module('plateService', [])
             getOtherPlateFields: getOtherPlateFields,
             wait: wait,
             savePlateTypes: savePlateTypes,
-            getAllApprovablePlates:getAllApprovablePlates
+            getAllApprovablePlates: getAllApprovablePlates,
+            updateAllPlateReq: updateAllPlateReq
         });
 
         function savePlateTypes() {
@@ -115,6 +116,7 @@ angular.module('plateService', [])
             return deffered.promise;
 
         }
+
         function getNewAddPlateFields(readOnly) {
             return [
                 {
@@ -692,6 +694,19 @@ angular.module('plateService', [])
             var deferred = $q.defer();
 
             $http.post('/client/update/reqplate', data, AuthService.getHeader()).success(function (data) {
+                if (data) deferred.resolve(data);
+            }).error(function (err) {
+                if (err) deferred.reject();
+            });
+
+            return deferred.promise;
+        }
+
+        function updateAllPlateReq(data) {
+
+            var deferred = $q.defer();
+
+            $http.post('/client/update/alls/reqplate', data, AuthService.getHeader()).success(function (data) {
                 if (data) deferred.resolve(data);
             }).error(function (err) {
                 if (err) deferred.reject();

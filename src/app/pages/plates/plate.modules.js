@@ -1,4 +1,3 @@
-
 (function () {
     'use strict';
 
@@ -41,29 +40,29 @@
                 order: 0,
             },
             requireLogin: true
-        }).state('plate.bulkreq', {
-            url: '/plate_bulk',
-            templateUrl: 'app/pages/plates/bulk/bulk.html',
-            title: 'Toplu Levha İsteği',
-            controller: 'bulkReqCtrl',
-            controllerAs: 'vm',
-            sidebarMeta: {
-                icon: 'ion-plus',
-                order: 0,
-            },
-            requireLogin: true
-        }).state('plate.bulkapprove', {
-            url: '/plate_approve',
-            templateUrl: 'app/pages/plates/plate_main/main.html',
-            title: 'Levha Onay Ekranı',
-            controller: 'plateMngCtrl',
-            controllerAs: 'vm',
-            sidebarMeta: {
-                icon: 'ion-plus',
-                order: 0,
-            },
-            requireLogin: true
-        }).state('plate.addPlateReq', {
+        })/*.state('plate.bulkreq', {
+         url: '/plate_bulk',
+         templateUrl: 'app/pages/plates/bulk/bulk.html',
+         title: 'Toplu Levha İsteği',
+         controller: 'bulkReqCtrl',
+         controllerAs: 'vm',
+         sidebarMeta: {
+         icon: 'ion-plus',
+         order: 0,
+         },
+         requireLogin: true
+         }).state('plate.bulkapprove', {
+         url: '/plate_approve',
+         templateUrl: 'app/pages/plates/plate_main/main.html',
+         title: 'Levha Onay Ekranı',
+         controller: 'plateMngCtrl',
+         controllerAs: 'vm',
+         sidebarMeta: {
+         icon: 'ion-plus',
+         order: 0,
+         },
+         requireLogin: true
+         })*/.state('plate.addPlateReq', {
             url: '/addPlatereq',
             templateUrl: 'app/pages/plates/newplate/addPlate.html',
             title: 'Yeni Levha İsteği',

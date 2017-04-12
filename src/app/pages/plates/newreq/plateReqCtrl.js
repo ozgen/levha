@@ -121,13 +121,20 @@
 
                     function onClick(e) {
                         mapPlate.removeLayer(this);
+                        remove({locationx: e.latlng.lat, locationy: e.latlng.lng})
+                        console.log(locArray);
                     }
 
                     mapPlate.addLayer(marker);
                     locArray.push({locationx: e.latlng.lat, locationy: e.latlng.lng})
-
+                    console.log(locArray);
                     $scope.removeMarker = function (marker) {
                         mapPlate.removeLayer(marker);
+                    }
+                    function remove(item) {
+                        var index = locArray.indexOf(item);
+                        locArray.splice(index, 1);
+
                     }
 
                 });

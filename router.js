@@ -26,6 +26,7 @@ app.get('/getpic/:pictureName', GeneralBusiness.getPlatePicture);
 app.get('/profilepic/:pictureName', GeneralBusiness.getProfilePicture);
 app.post('/save/reqplate', requireAuth, PlateBusiness.savePlateRequest);
 app.post('/update/reqplate', requireAuth, PlateBusiness.updatePlateRequest);
+app.post('/update/alls/reqplate', requireAuth, PlateBusiness.updateAllPlateRequest);
 app.get('/get/reqplate/monthly', requireAuth, PlateBusiness.getPlateReqMonthly);
 app.get('/get/reqplate/completed', requireAuth, PlateBusiness.getCompletedPlateReq);
 app.get('/get/reqplate/notcompleted', requireAuth, PlateBusiness.getNotCompletedPlateReq);

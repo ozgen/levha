@@ -9,6 +9,7 @@ const PlateRequest = require('./../models/plate');
 const PlateOperation = require('./../models/plateOperation');
 const PlateType = require('./../models/plateType');
 const PlateDefinition = require('./../models/plate_model');
+const mongoose = require('mongoose');
 
 
 exports.getPlateDataWithLocal = function (req, res, next) {
@@ -68,7 +69,7 @@ exports.getPlateReqMonthly = function (req, res) {
         query.where('branch').equals(req.headers.branch);
     query.exec(function (err, data) {
         if (err) return res.status(500).send(err);
-        console.log(data)
+
         return res.status(200).send(data);
 
     });
@@ -103,9 +104,37 @@ exports.updatePlateRequest = function (req, res) {
 
 }
 
+exports.updateAllPlateRequest = function (req, res) {
+
+    const dataArr = req.body;
+
+    const arr = [];
+    const idArr = [];
+
+    if (dataArr.length > 0) {
+        dataArr.forEach(function (data, index) {
+            idArr.push(data._id);
+            arr.push(data);
+        });
+        if (arr.length === dataArr.length) {
+            console.log(idArr)
+            PlateRequest.update({'_id': {$in: idArr}}, {$set: {status: 1}}, {
+                multi: true
+            }, function (err, data) {
+                if (err) return res.status(404).send(err);
+
+                return res.status(200).send(data);
+            });
+        } else
+            return res.status(500).send("wrong data");
+
+    } else
+        return res.status(500).send("wrong data");
+}
+
 exports.savePlateOpearations = function (req, res) {
     const email = Authentication.parseToken(req.headers.authorization);
-    var plateOperation = new PlateOperation(req.body);
+    const plateOperation = new PlateOperation(req.body);
     plateOperation.useremail = email.sub;
     plateOperation.save();
     PlateRequest.findById(plateOperation.plate_id, function (err, plate) {

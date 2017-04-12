@@ -50,7 +50,6 @@ exports.saveRegion = function (req, res) {
                 region.save(function (err, data) {
                     console.log(err);
                 });
-                console.log(region)
                 return res.status(200).send(region);
             }
         } else {
@@ -188,11 +187,9 @@ exports.getCoords = function (req, res) {
             elem.where('name_').equals(req.headers.branch);
         });
     }
-    console.log(query._conditions)
     query.exec(function (err, region) {
         if (err) return res.status(404).send(err);
         const coords = {};
-        console.log(region[0].branch)
         if (req.headers.branch !== 'undefined') {
             const branches = region[0].branch;
             branches.forEach(function (result, index) {

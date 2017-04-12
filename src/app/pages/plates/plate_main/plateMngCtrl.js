@@ -263,36 +263,71 @@
 
 
         $scope.approvePlateReq = function (data) {
-            if($scope.roleAdmin){
-            SweetAlert.swal({
-                    title: "İsteği Onayla",
-                    text: "İsteği onaylamak istediğinize emin misiniz?",
-                    type: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#31B404",
-                    confirmButtonText: "Evet",
-                    cancelButtonText: "Hayır",
-                    closeOnConfirm: true
-                },
-                function (isConfirm) {
-                    if (isConfirm) {
-                        data.status = 1;
-                        PlateService.updatePlateReq(data).then(function (data) {
-                            toastr.success("İstek başarıyla onaylandı");
-                            location.reload();
-                        }, function (err) {
-                            $scope.isLoading = false;
-                            toastr.error("Onaylama sırasında hata!");
-                            $scope.showMap = true;
-                            $uibModalInstance.close();
+            if ($scope.roleAdmin) {
+                SweetAlert.swal({
+                        title: "İsteği Onayla",
+                        text: "İsteği onaylamak istediğinize emin misiniz?",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#31B404",
+                        confirmButtonText: "Evet",
+                        cancelButtonText: "Hayır",
+                        closeOnConfirm: true
+                    },
+                    function (isConfirm) {
+                        if (isConfirm) {
+                            data.status = 1;
+                            PlateService.updatePlateReq(data).then(function (data) {
+                                toastr.success("İstek başarıyla onaylandı");
+                                location.reload();
+                            }, function (err) {
+                                $scope.isLoading = false;
+                                toastr.error("Onaylama sırasında hata!");
+                                $scope.showMap = true;
 
-                        })
-                    }
-                });
-            }else{
+
+                            })
+                        }
+                    });
+            } else {
                 toastr.error("Onaylamaya yetkiniz yok!");
             }
         }
+
+        $scope.approveAllPlateReq = function () {
+            if ($scope.roleAdmin) {
+                SweetAlert.swal({
+                        title: "Tüm İstekleri Onayla",
+                        text: "Tüm istekleri onaylamak istediğinize emin misiniz?",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#31B404",
+                        confirmButtonText: "Evet",
+                        cancelButtonText: "Hayır",
+                        closeOnConfirm: true
+                    },
+                    function (isConfirm) {
+                        if (isConfirm) {
+
+                            PlateService.updateAllPlateReq($scope.toApprovePlates).then(function (data) {
+                                toastr.success("İstekler başarıyla onaylandı");
+                                location.reload();
+                            }, function (err) {
+                                $scope.isLoading = false;
+                                toastr.error("Onaylama sırasında hata!");
+                                $scope.showMap = true;
+
+                            })
+                        }
+                    });
+            } else {
+                toastr.error("Onaylamaya yetkiniz yok!");
+            }
+        }
+
+        $scope.$on('$destroy', function () {
+            map.remove();
+        });
 
 
     }

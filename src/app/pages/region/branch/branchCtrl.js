@@ -225,6 +225,11 @@
                 });
         }
 
+        $scope.$on('$destroy', function () {
+            mapBranch.remove();
+        });
+
+
     };
 
 })();

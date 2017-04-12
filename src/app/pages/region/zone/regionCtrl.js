@@ -197,6 +197,11 @@
             $scope.updateMap();
         }
 
+        $scope.$on('$destroy', function () {
+            mapRegion.remove();
+        });
+
+
     }
 
 })();
