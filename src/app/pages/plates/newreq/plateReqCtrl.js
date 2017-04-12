@@ -150,7 +150,9 @@
                 }).addTo(map);
                 mapPlate.zoomControl.setPosition('topright');
                 if (refreshBtn === undefined) {
-                    MapService.addRefreshBtn(mapPlate);
+                    MapService.addRefreshBtn(mapPlate, function (btn) {
+                        refreshBtn = btn;
+                    });
                 }
                 if (btnReq === undefined) {
                     btnReq = L.easyButton('fa-edit', function (btn, map) {

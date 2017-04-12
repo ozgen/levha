@@ -32,7 +32,6 @@
         $scope.showRegionMap = false;
 
 
-
         $scope.updateMap = function (data) {
 
             MapService.getTheMap().then(function (map) {
@@ -59,7 +58,9 @@
                 locy = parseFloat(data.locationy);
                 map.setView(new L.LatLng(locx, locy), 8);
                 if (refreshBtn === undefined) {
-                    MapService.addRefreshBtn(map);
+                    MapService.addRefreshBtn(map, function (btn) {
+                        refreshBtn = btn;
+                    });
                 }
 
             })
@@ -194,12 +195,8 @@
             vm.options.resetModel();
             vm.regionModel = {};
             vm.callServer($scope.tablestate);
-            $scope.updateMap();
-        }
 
-        $scope.$on('$destroy', function () {
-            mapRegion.remove();
-        });
+        }
 
 
     }

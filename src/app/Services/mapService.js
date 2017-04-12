@@ -77,7 +77,7 @@ angular.module('mapService', [])
             return deferred.promise;
         }
 
-        function addRefreshBtn(lfMap) {
+        function addRefreshBtn(lfMap, cb) {
             var refreshBtn = L.easyButton('fa-refresh', function (btn, map) {
 
                 map.invalidateSize();
@@ -86,6 +86,8 @@ angular.module('mapService', [])
 
 
             refreshBtn.setPosition('bottomright');
+
+            return cb(refreshBtn);
 
         }
 

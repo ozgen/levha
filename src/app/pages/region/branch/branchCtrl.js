@@ -29,6 +29,30 @@
         var locx = 0;
         var locy = 0;
 
+        angular.extend($scope, {
+
+            markers: {},
+            zoomControl: false,
+
+            layers: {
+                baselayers: {
+                    osm: {
+                        name: "Ana Harita Katmanı",
+                        type: "xyz",
+                        url: "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                        layerOptions: {
+                            subdomains: ["a", "b", "c"],
+                            attribution: "&copy; <a href=\"http://www.openstreetmap.org/copyright\">YKSTrafik</a> contributors",
+                            continuousWorld: true
+                        }
+                    }
+                },
+                options: {
+                    position: 'bottomleft'
+                }
+            }
+        });
+
         AuthService.getCoords().then(function (data) {
             $scope.coords = data;
         })
@@ -63,7 +87,9 @@
                 locy = parseFloat(data.locationy);
                 mapBranch.setView(new L.LatLng(locx, locy)).setZoom(12);
                 if (refreshBtn === undefined) {
-                    MapService.addRefreshBtn(map);
+                    MapService.addRefreshBtn(map, function (btn) {
+                        refreshBtn = btn;
+                    });
                 }
                 mapBranch.on("click", function (e) {
                     if (marker)
@@ -224,10 +250,6 @@
                     }
                 });
         }
-
-        $scope.$on('$destroy', function () {
-            mapBranch.remove();
-        });
 
 
     };
