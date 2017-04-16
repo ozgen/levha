@@ -30,10 +30,8 @@
         var locy = 0;
 
         angular.extend($scope, {
-
             markers: {},
             zoomControl: false,
-
             layers: {
                 baselayers: {
                     osm: {
@@ -47,6 +45,7 @@
                         }
                     }
                 },
+
                 options: {
                     position: 'bottomleft'
                 }

@@ -39,6 +39,10 @@ angular.module('mapService', [])
                         attribution: '&copy; <a href="http://osm.org/copyright">YKSTrafik</a> contributors'
                     }).addTo(lfMap);
                     deferred.resolve(lfMap);
+                    L.control.scale({
+                        imperial: false
+                    }).addTo(lfMap);
+                    lfMap.zoomControl.setPosition('topright');
 
 
                 });

@@ -12,53 +12,36 @@
         .controller('plateMngCtrl', plateMngCtrl);
 
     /** @ngInject */
-    function plateMngCtrl($scope, $timeout, leafletData, PlateService, $filter, $uibModal, MapService, AuthService, SweetAlert, toastr) {
+    function plateMngCtrl($scope, $timeout, leafletData, PlateService, $filter, $uibModal, MapService, AuthService, SweetAlert, toastr, DefService) {
         'use strict';
-        $scope.title = "Home";
-        $scope.isLoading = true;
+        var vm = this;
         $scope.showMap = false;
+        vm.displayed = [];
 
         $scope.roleAdmin = AuthService.checkRole('admin');
         $scope.showProcess = true;
 
         var map = {};
-
         angular.extend($scope, {
             location: {zoom: 12},
             markers: {},
-            defaults: {
-                maxZoom: 18,
-                minZoom: 0
-            },
+            zoomControl: false,
             layers: {
                 baselayers: {
-                    googleHybrid: {
-                        name: 'Karma',
-                        layerType: 'HYBRID',
-                        type: 'google'
-                    },
-                    googleTerrain: {
-                        name: 'Arazi',
-                        layerType: 'TERRAIN',
-                        type: 'google'
-                    },
-                    googleRoadmap: {
-                        name: 'Yol',
-                        layerType: 'ROADMAP',
-                        type: 'google'
+                    osm: {
+                        name: "Ana Harita Katmanı",
+                        type: "xyz",
+                        url: "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                        layerOptions: {
+                            subdomains: ["a", "b", "c"],
+                            attribution: "&copy; <a href=\"http://www.openstreetmap.org/copyright\">YKSTrafik</a> contributors",
+                            continuousWorld: true
+                        }
                     }
-                }
-            },
-            controls: {
-                fullscreen: {
-                    position: 'topright'
                 },
-                scale: true
-            },
-            events: { // or just {} //all events
-                markers: {
-                    enable: ['dragend']
-                    //logic: 'emit'
+
+                options: {
+                    position: 'bottomleft'
                 }
             }
         });
@@ -68,17 +51,30 @@
             map = map2;
 
         })
+        vm.callServer = function callServer(tableState) {
+            vm.isLoading = true;
+            $scope.tablestate = angular.copy(tableState);
+            var pagination = tableState.pagination;
 
+            var start = pagination.start || 0;     // This is NOT the page number, but the index of item in the list that you want to use to display the table.
+            var number = pagination.number || 10;  // Number of entries showed per page.
+            if ($scope.plates) {
+                DefService.getThePage(start, number, tableState, $scope.plates).then(function (result) {
+                    vm.displayed = result.data;
+                    console.log(result)
+                    tableState.pagination.numberOfPages = result.numberOfPages;//set the number of pages so the pagination can update
+                    vm.isLoading = false;
+                    console.log(vm.isLoading)
+                });
+            }
+        };
 
         function setDataToPnl(data) {
-
-            $scope.currentPage = 1
-                , $scope.numPerPage = 5
-                , $scope.maxSize = 5;
-
+            $scope.plates = data;
+            vm.callServer($scope.tablestate);
 
             var markerColor = "";
-            switch (data.platePocess) {
+            switch ($scope.platePocess) {
                 case 'completed':
                     markerColor = 'green';
                     break;
@@ -91,7 +87,6 @@
                 default:
                     break;
             }
-            $scope.plates = data;
 
 
             $scope.markers = [];
@@ -148,7 +143,7 @@
 
 
         PlateService.getCompletedPlateReq().then(function (data) {
-            data.platePocess = 'completed';
+            $scope.platePocess = 'completed';
             $scope.completedPlates = data;
 
         })
@@ -158,12 +153,12 @@
 
         })
         PlateService.getAllApprovablePlates().then(function (data) {
-            data.plateProcess = 'toApprove';
+            $scope.plateProcess = 'toApprove';
             $scope.toApprovePlates = data;
         })
 
         PlateService.getReqPlateMonthly().then(function (data) {
-            data.platePocess = 'notStarted';
+            $scope.platePocess = 'notStarted';
             $scope.notStartedPlates = data;
             setDataToPnl(data);
             $scope.showMap = true;
@@ -173,13 +168,13 @@
             $scope.isLoading = true;
             setDataToPnl($scope.completedPlates);
             $scope.showMap = true;
+
         }
         $scope.setMonthlyPlateToPln = function () {
             $scope.isLoading = true;
             setDataToPnl($scope.notStartedPlates);
             $scope.showMap = true;
             $scope.showProcess = true;
-
         }
         $scope.setNotCompletedPlateToPnl = function () {
             $scope.isLoading = true;
@@ -192,7 +187,6 @@
             setDataToPnl($scope.toApprovePlates);
             $scope.showMap = true;
             $scope.showProcess = false;
-
         }
 
 
@@ -309,6 +303,7 @@
                     function (isConfirm) {
                         if (isConfirm) {
 
+
                             PlateService.updateAllPlateReq($scope.toApprovePlates).then(function (data) {
                                 toastr.success("İstekler başarıyla onaylandı");
                                 location.reload();
@@ -325,9 +320,78 @@
             }
         }
 
+        $scope.approveSelectedPlateReq = function () {
+            if ($scope.roleAdmin) {
+                SweetAlert.swal({
+                        title: "Seçili İstekleri Onayla",
+                        text: "Seçili istekleri onaylamak istediğinize emin misiniz?",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#31B404",
+                        confirmButtonText: "Evet",
+                        cancelButtonText: "Hayır",
+                        closeOnConfirm: true
+                    },
+                    function (isConfirm) {
+                        if (isConfirm) {
+                            if (vm.selected.length === 0) {
+
+                                toastr.error("En az bir levha seçiniz...")
+                                return;
+                            } else {
+                                PlateService.updateAllPlateReq(vm.selected).then(function (data) {
+                                    toastr.success("İstekler başarıyla onaylandı");
+                                    location.reload();
+                                }, function (err) {
+                                    $scope.isLoading = false;
+                                    toastr.error("Onaylama sırasında hata!");
+                                    $scope.showMap = true;
+
+                                })
+                            }
+
+
+                        }
+                    });
+            } else {
+                toastr.error("Onaylamaya yetkiniz yok!");
+            }
+        }
+
         $scope.$on('$destroy', function () {
             map.remove();
         });
+
+
+        // Declare the array for the selected items
+        vm.selected = [];
+
+
+        // Function to get data by selecting a single row
+        vm.select = function (id) {
+
+            var found = vm.selected.indexOf(id);
+
+            if (found == -1) vm.selected.push(id);
+
+            else vm.selected.splice(found, 1);
+
+        }
+        var isSelected = false;
+        vm.defaultData = {};
+        vm.getSelected = function () {
+
+            if (!isSelected) {
+                vm.defaultData = vm.displayed
+                vm.displayed = vm.selected;
+                isSelected = true;
+            } else {
+                isSelected = false;
+                if (vm.defaultData)
+                    vm.displayed = vm.defaultData;
+            }
+
+        }
 
 
     }

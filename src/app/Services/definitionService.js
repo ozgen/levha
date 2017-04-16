@@ -600,7 +600,6 @@ angular.module('defService', []).factory('DefService', ['$q', '$http', 'AuthServ
             }
 
             var result = filtered.slice(start, start + number);
-
             $timeout(function () {
                 //note, the server passes the information about the data set size
                 deferred.resolve({
