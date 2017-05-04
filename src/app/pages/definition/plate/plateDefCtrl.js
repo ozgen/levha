@@ -9,7 +9,7 @@
         .controller('plateDefCtrl', plateDefCtrl);
 
     /** @ngInject */
-    function plateDefCtrl($scope, $uibModal, toastr, DefService, $cookieStore, SweetAlert) {
+    function plateDefCtrl($scope, $uibModal, toastr, DefService, $cookieStore, SweetAlert, FileUploader) {
 
         var vm = this;
         vm.model = {};
@@ -23,6 +23,25 @@
             vm.typeFields = fields;
             vm.typeModel = {};
         })
+
+        var uploader = $scope.uploader = new FileUploader({
+            url: '/client/upload'
+        });
+        $scope.setFile = function (element) {
+            $scope.currentFile = element.files[0];
+            $scope.pictureName = $scope.currentFile.name;
+
+            var reader = new FileReader();
+
+            reader.onload = function (event) {
+                $scope.image_source = event.target.result;
+                $scope.$apply()
+
+            };
+            // when the file is read it triggers the onload event above.
+            reader.readAsDataURL(element.files[0]);
+
+        };
 
         vm.test = function (picModel) {
             $uibModal.open({
@@ -42,14 +61,25 @@
                     scale[i] = vm.model.scale[i].scale;
                 }
             }
-            dat.picture_name = vm.picModel.picture_name;
+            //dat.picture_name = vm.picModel.picture_name;
             dat.scale = scale;
             dat.plate_type = vm.typeModel.plate_type;
+            if (uploader.queue[0]) {
+                uploader.queue[0].formData.push({
+                    folder: "traffic"
+                });
+                dat.picture_name = uploader.queue[0].file.name;
+            } else {
+                dat.picture_name = vm.picModel.picture_name;
+            }
             DefService.getThePlateTypeLabel(vm.typeModel).then(function (data) {
 
                 dat.plate_type_label = data;
 
                 DefService.savePlateDef(dat).then(function (data) {
+                    uploader.uploadAll();
+
+                    uploader.onCompleteAll();
                     toastr.success("Levha başarıyla tanımlandı.");
                     location.reload();
                 }, function (err) {
@@ -111,7 +141,7 @@
             }
             else {
                 $scope.isTableOpen = true;
-                $scope.isDefOpen = true;
+                $scope.isDefOpen = false;
             }
         }
         vm.openTypeFields = function () {

@@ -3,6 +3,20 @@
         <uib-accordion>
             <div uib-accordion-group heading="LEVHA TANIMLAMA" is-open="isDefOpen" ng-click="controlTabs()"
                  panel-class="bootstrap-panel accordion-panel panel-primary">
+                <center>
+                     <span ng-if="uploader.queue[0]">
+        <img ng-src="{{ image_source }}" width="150" height="150" class="img-thumbnail"><br>
+        </span>
+                    <img ng-if="!uploader.queue[0] && !vm.picModel.picture_name" src="assets/img/app/empty.jpg" width="150" height="150"
+                         class="img-thumbnail">
+                    <img ng-if="!uploader.queue[0] && vm.picModel.picture_name" src="/client/getpic/{{vm.picModel.picture_name}}" width="150" height="150"
+                         class="img-thumbnail"><br>
+         <span class="btn btn-primary btn-file">
+        <i href class="change-userpic" class="glyphicon glyphicon-paperclip"></i> Levha Resmi
+        <input type="file" nv-file-select uploader="uploader" accept="image/*"
+               onchange="angular.element(this).scope().setFile(this)"/>
+        </span>
+                </center>
                 <div class="row">
                     <formly-form model="vm.picModel" fields="vm.picFields">
                     </formly-form>
@@ -130,6 +144,6 @@
             </div>
 
 
-    </uib-accordion>
+        </uib-accordion>
     </div>
 </div>

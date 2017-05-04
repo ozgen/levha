@@ -158,10 +158,7 @@ angular.module('defService', []).factory('DefService', ['$q', '$http', 'AuthServ
 
         function getPicFields(readOnly) {
             return [
-                {
-                    className: 'col-xs-12',
-                    template: '<div><strong>LEVHA İSTEĞİ</strong><hr></div>'
-                },
+             
                 {
                     className: 'col-xs-12',
                     type: 'input',
