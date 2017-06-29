@@ -300,3 +300,45 @@ exports.getPlates = function (req, res) {
 
     })
 }
+
+exports.getPlateWithBarcodeNumber = function (req, res) {
+    if (req.body.barcode !== 'undefined') {
+        const barcode = req.body.barcode;
+        const query = PlateRequest.findOne();
+        query.where('barcode').equals(barcode);
+        query.where('is_deleted').equals(0);
+        query.exec(function (err, data) {
+            if (err)
+                return res.status(404).send(err);
+            if (data.barcode) {
+                if (data.barcode) {
+                    if (data.barcode === barcode)
+                        return res.status(200).send(data);
+                } else
+                    return res.status(404).send({});
+            } else
+                return res.status(404).send({});
+
+        })
+    } else
+        return res.status(401).send("Invalid Barcode");
+
+
+}
+
+exports.saveBarcodeForPlateWithId = function (req, res) {
+    if (req.body.barcode !== 'undefined' && req.body.id !== 'undefined') {
+        PlateRequest.findById(req.body.id, function (err, plate) {
+            if (err)
+                return res.status(404).send(err);
+            plate.barcode = req.body.barcode;
+            plate.save(function (err, data) {
+                if (err)
+                    return res.status(401).send(err);
+
+                return res.status(200).send(plate);
+            })
+        })
+    } else
+        return res.status(401).send("invalid data");
+}

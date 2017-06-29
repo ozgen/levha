@@ -53,5 +53,6 @@ app.post('/get/region/branches', requireAuth, GeneralBusiness.getBranches);
 app.post('/delete/region/branch', requireAuth, GeneralBusiness.deleteBranch);
 app.get('/get/coord', requireAuth, GeneralBusiness.getCoords);
 app.get('/get/allapprovable/reqplate', requireAuth, PlateBusiness.getAllApprovablePlates);
-
+app.post('/take/plate/barcode', requireAuth, PlateBusiness.getPlateWithBarcodeNumber);
+app.post('/save/plate/barcode',requireAuth, PlateBusiness.saveBarcodeForPlateWithId);
 module.exports = app;
